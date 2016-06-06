@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package util;
 
 /**
@@ -42,5 +36,21 @@ public class ArrayUtil {
             shortArray[i] = (int) value;
         }
         return shortArray;
+    }
+    
+    public static double[][] copyArray(double[][] source){
+        double[][] target = null;
+        if(source != null){
+            target = new double[source.length][source[0].length];
+            for(int row = 0; row < source.length; row++){
+                for(int col = 0; col < source[row].length; col++){
+                    target[row][col] = source[row][col];
+                }
+            }
+        }else{
+            target = new double[1][1];
+            target[0][0] = 0;
+        }
+        return target;
     }
 }

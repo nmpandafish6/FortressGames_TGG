@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package programbuilder;
 
 import javax.swing.JLabel;
@@ -11,13 +5,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- *
+ * Creates a generic text field with a label to the left of it
  * @author Nicolas
  */
 public class LabeledTextField extends JPanel{
     
-    JTextField textField;
-    JLabel label;
+    private final JTextField textField;
+    private final JLabel label;
+    /**
+     * Constructor
+     * @param title label to text field
+     */
     public LabeledTextField(String title){
         textField = new JTextField(6);
         label = new JLabel(title);
@@ -25,6 +23,10 @@ public class LabeledTextField extends JPanel{
         this.add(textField);
     }
     
+    /**
+     * Gets the text from the text field
+     * @return the text from the text field
+     */
     public String get(){
         return this.textField.getText();
     }
