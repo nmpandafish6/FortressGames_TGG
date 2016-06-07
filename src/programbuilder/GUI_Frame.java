@@ -45,7 +45,7 @@ public class GUI_Frame extends JFrame{
         JViewport functionPanelViewport = new JViewport();
         functionPanelViewport.add(functionPanel);
         functionScrollPane.setViewport(functionPanelViewport);
-        functionPanel.setPreferredSize(new Dimension(350, 2550));
+        functionPanel.setPreferredSize(new Dimension(350, 2850));
         functionPanelViewport.setPreferredSize(new Dimension(350, 650));
         functionScrollPane.getVerticalScrollBar().setUnitIncrement(30);
     }
@@ -152,6 +152,16 @@ public class GUI_Frame extends JFrame{
         stats = new DataPane("<html><h3>Stats</h3></html>", new String[]{
             "Mean", "Max ", "Min "});
         component.add(stats);
+        
+        FunctionPane mapScale = new FunctionPane("<html><h3>mapScale()</h3></html>", new String[]{
+            "Source Low", "Source High"}) {
+            @Override
+            public void function() {
+                TerrainGenMaster.mapScale(this.getAllOptions());
+                updateImage(dataArray_List);
+            }
+        };
+        component.add(mapScale);
         
         FunctionPane write = new FunctionPane("<html><h3>Write()</h3></html>", new String[]{
             "File Number"}) {

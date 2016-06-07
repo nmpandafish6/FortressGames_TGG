@@ -20,6 +20,8 @@ import util.MathUtil;
  */
 public class TerrainGenMaster {
         
+    public static double sourceLow  = 0;
+    public static double sourceHigh = 255;
     public static void writeImage(double[][] target, double[] options){
         BufferedImage image = (BufferedImage) getUpdatedImage(target);
         try {
@@ -37,7 +39,7 @@ public class TerrainGenMaster {
         }else{
             image = new BufferedImage(dataArray.length, dataArray[0].length, BufferedImage.TYPE_BYTE_GRAY);
             image.setRGB(0, 0, dataArray.length, dataArray[0].length, 
-                ArrayUtil.doubleToIntArray(ArrayUtil.scaledOneDimensionalArray(dataArray)), 0, dataArray.length);
+                ArrayUtil.doubleToIntArray(ArrayUtil.scaledOneDimensionalArray(dataArray, sourceLow, sourceHigh)), 0, dataArray.length);
         }
         return image;
     }
@@ -47,7 +49,7 @@ public class TerrainGenMaster {
         try {
             int fileNumber = (int) options[0];
             out = new DataOutputStream(new FileOutputStream("Binary_" + fileNumber + ".raw"));
-            int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray(target)));
+            int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray(target, sourceLow, sourceHigh)));
             for(int i = 0; i < array.length; i++)
                 out.write(array[i]);
             out.close();
@@ -82,6 +84,11 @@ public class TerrainGenMaster {
                 }
             }
         }
+    }
+    
+    public static void mapScale(double[] options){
+        sourceLow = options[0];
+        sourceHigh = options[1];
     }
     
     public static void addGaussianRandomness(double[][] target, double[] options){
