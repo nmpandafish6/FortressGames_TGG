@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -79,6 +80,30 @@ public class TerrainGenMaster {
                 if(target[row][col] < floodVal){
                     target[row][col] = floodVal;
                 }
+            }
+        }
+    }
+    
+    public static void addGaussianRandomness(double[][] target, double[] options){
+        Random random = new Random();
+        double min = options[0];
+        double max = options[1];
+        double range = max - min;
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                target[row][col] += random.nextGaussian()*range + min;
+            }
+        }
+    }
+    
+    public static void addRandomness(double[][] target, double[] options){
+        Random random = new Random();
+        double min = options[0];
+        double max = options[1];
+        double range = max - min;
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                target[row][col] += random.nextDouble()*range + min;
             }
         }
     }
