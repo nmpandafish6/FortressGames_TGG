@@ -41,7 +41,7 @@ public abstract class FunctionPane extends JPanel{
             @Override public void mouseEntered(MouseEvent e) {}
             @Override public void mouseExited(MouseEvent e) {}
         });
-        this.setPreferredSize(new Dimension(300, 250));
+        this.setPreferredSize(new Dimension(300, 300));
         this.setBorder(blackline);
         this.add(this.title);
         this.options = new LabeledTextField[options.length];

@@ -45,14 +45,15 @@ public class GUI_Frame extends JFrame{
         JViewport functionPanelViewport = new JViewport();
         functionPanelViewport.add(functionPanel);
         functionScrollPane.setViewport(functionPanelViewport);
-        functionPanel.setPreferredSize(new Dimension(350, 2850));
+        functionPanel.setPreferredSize(new Dimension(350, 4000));
         functionPanelViewport.setPreferredSize(new Dimension(350, 650));
         functionScrollPane.getVerticalScrollBar().setUnitIncrement(30);
     }
     
     private void addFunctions(JComponent component){
         FunctionPane diamondSquare = new FunctionPane("<html><h3>Diamond Square()</h3></html>", new String[]{
-            "Size", "Random Divider", "Upper Left", "Bottom Left", "Upper Right", "Bottom Right"}) {
+            "Size", "Random Divider", "Upper Left", "Bottom Left", "Upper Right", "Bottom Right",
+            "Random Scalar"}) {
             @Override
             public void function() {
                 undoList = ArrayUtil.copyArray(dataArray_List);
@@ -159,9 +160,21 @@ public class GUI_Frame extends JFrame{
             public void function() {
                 TerrainGenMaster.mapScale(this.getAllOptions());
                 updateImage(dataArray_List);
+                updateStats(dataArray_List);
             }
         };
         component.add(mapScale);
+        
+        FunctionPane read = new FunctionPane("<html><h3>Read()</h3></html>", new String[]{
+        }) {
+            @Override
+            public void function() {
+                dataArray_List = TerrainGenMaster.readBinary();
+                updateImage(dataArray_List);
+                updateStats(dataArray_List);
+            }
+        };
+        component.add(read);
         
         FunctionPane write = new FunctionPane("<html><h3>Write()</h3></html>", new String[]{
             "File Number"}) {

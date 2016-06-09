@@ -11,7 +11,9 @@ import util.MathUtil;
 public class DiamondSquareFractal {
 
     private static double randomDivider = 4d;
+    private static double randomScalar  = 1d;
     private static Queue<TerrainGenData> queue = new LinkedList<>();
+    private static int calls = 0;
     
     private static class TerrainGenData{
         public TerrainGenData(Coordinate coord, int msize, boolean type){
@@ -25,6 +27,7 @@ public class DiamondSquareFractal {
     }
     
     public static double[][] diamondSquareGenerate(double[] options){
+        calls = 0;
         int size = (int) options[0];
         double[][] buffer = new double[size][size];
         randomDivider = options[1];
@@ -32,6 +35,7 @@ public class DiamondSquareFractal {
         double dwLeft = options[3];
         double upRight = options[4];
         double dwRight = options[5];
+        randomScalar   = options[6];
         buffer[0][0]           = (upLeft * Math.random());
         buffer[size-1][0]      = (dwLeft * Math.random());
         buffer[0][size-1]      = (upRight * Math.random());
@@ -49,6 +53,7 @@ public class DiamondSquareFractal {
     }
     
     public static void square(double[][] target, Coordinate center,int size){
+        calls++;
         int x = center.x;
         int y = center.y;
         if(target[y][x] != 0) return;
@@ -70,7 +75,7 @@ public class DiamondSquareFractal {
             values.add(target[y][x3]);
         if(values.isEmpty()) return;
         double average = MathUtil.mean(values);
-        double random  = Math.random() * average / randomDivider;
+        double random  = Math.random() * randomScalar / Math.log(calls+2) / randomDivider;
         target[y][x] = (average + random);
         if (size/2 > 0 && x+size/2 >= 0 && x+size/2 < target.length){
             if (y-size/2 >= 0 && y-size/2 < target.length && target[y-size/2][x+size/2] == 0)
@@ -81,6 +86,7 @@ public class DiamondSquareFractal {
     }
     
     public static void diamond(double[][] target, Coordinate center,int size){
+        calls++;
         int x = center.x;
         int y = center.y;
         double average = MathUtil.mean(new double[]{
@@ -89,7 +95,7 @@ public class DiamondSquareFractal {
             target[y+size][x-size],
             target[y+size][x+size]
         });
-        double random  = Math.random() * average / randomDivider;
+        double random  = Math.random() * randomScalar / Math.log(calls+2) / randomDivider;
         target[y][x] = (average + random);
         if(target[y][x+size] == 0)  
             queue.add(new TerrainGenData(new Coordinate(x+size,y), size, false));

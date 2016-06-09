@@ -2,8 +2,10 @@ package terraingenerator;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import util.ArrayUtil;
 import util.MathUtil;
 
@@ -56,6 +59,31 @@ public class TerrainGenMaster {
         } catch (Exception ex) {
             Logger.getLogger(TerrainGenMaster.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public static double[][] readBinary(){
+        DataInputStream in = null;
+        double[][] target = null;
+        try {
+            JFileChooser fc = new JFileChooser();
+            fc.showOpenDialog(null);
+            if(fc.accept(null)){
+                File file = fc.getSelectedFile();
+                in = new DataInputStream(new FileInputStream(file));
+                int available = in.available();
+                int size = (int) (Math.sqrt(available));
+                target = new double[size][size];
+                for(int i = 0; i < size*size; i++){
+                    target[i / size][i % size] = ((int) in.readByte()) & 0xff;
+                }
+                
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TerrainGenMaster.class.getName()).log(Level.SEVERE, null, ex);
+            target = new double[1][1];
+        }
+        return target;
     }
     
     public static void laplacianSmooth(double[][] source, double[][] target) {
