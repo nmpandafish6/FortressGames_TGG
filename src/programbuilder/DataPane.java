@@ -29,7 +29,7 @@ public class DataPane extends JPanel{
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.title = new JLabel(title);
         this.blackline = BorderFactory.createLineBorder(Color.black);
-        this.setPreferredSize(new Dimension(300, 250));
+        
         this.setBorder(blackline);
         this.add(this.title);
         this.dataFields = new LabeledDataField[dataLabels.length];

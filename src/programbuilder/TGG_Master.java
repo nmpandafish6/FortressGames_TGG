@@ -14,9 +14,9 @@ public class TGG_Master {
      */
     public static void main(String[] args) {
         GUI_Frame frame = new GUI_Frame();
+        frame.setTitle("Fortress Games TGG");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        frame.validate();
         frame.pack();
     }
     

@@ -1,5 +1,9 @@
 package programbuilder;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,12 +21,18 @@ public class LabeledTextField extends JPanel{
      * @param title label to text field
      */
     public LabeledTextField(String title){
+        this.setLayout(new BorderLayout());
         textField = new JTextField(6);
         label = new JLabel(title);
-        this.add(label);
-        this.add(textField);
+        this.add(label, BorderLayout.WEST);
+        this.add(textField, BorderLayout.EAST);
     }
     
+    @Override
+    public void validate(){
+        this.setPreferredSize(new Dimension(this.getParent().getParent().getPreferredSize().width, this.getPreferredSize().height));
+        super.validate();
+    }
     /**
      * Gets the text from the text field
      * @return the text from the text field

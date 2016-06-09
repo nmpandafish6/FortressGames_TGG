@@ -1,16 +1,20 @@
 package programbuilder;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Image;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 import terraingenerator.DiamondSquareFractal;
+import terraingenerator.TGG_FileOperations;
 import terraingenerator.TerrainGenMaster;
 import util.ArrayUtil;
 import util.StatsUtil;
@@ -22,44 +26,50 @@ import util.StatsUtil.Stats;
  */
 public class GUI_Frame extends JFrame{
     
-    private final JLabel picLabel;
+    private static JLabel picLabel;
     private final JScrollPane functionScrollPane;
     private final JPanel functionPanel;
-    private double[][] undoList;
-    private double[][] dataArray_List;
-    private DataPane stats;
+    private static double[][] undoList;
+    private static DataPane stats;
     public GUI_Frame(){
-        dataArray_List = new double[129][129];
-        picLabel = new JLabel();
+        JPanel masterPanel = new JPanel();
+        Resources.dataArrayList.add(new double[129][129]);
+        JMenuBar menu = new MenuBar();
         functionScrollPane = new JScrollPane();
         functionPanel = new JPanel();
-        generateScrollPane();
-        updateImage(null);
+        picLabel = new JLabel();
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
                            functionScrollPane, picLabel);
-        this.addFunctions(functionPanel);
-        this.add(splitPane);
+        this.setJMenuBar(menu);
+        masterPanel.add(splitPane);
+        addFunctions(functionPanel);
+        this.add(masterPanel);
+        generateScrollPane();
+        updateImage(null);
+        
     }
     
     private void generateScrollPane(){
+        functionPanel.setPreferredSize(new Dimension((int) (Constants.FUNCTION_PANE_WIDTH*1.1d),
+                functionPanel.getPreferredSize().height));
         JViewport functionPanelViewport = new JViewport();
         functionPanelViewport.add(functionPanel);
         functionScrollPane.setViewport(functionPanelViewport);
-        functionPanel.setPreferredSize(new Dimension(350, 4000));
-        functionPanelViewport.setPreferredSize(new Dimension(350, 650));
-        functionScrollPane.getVerticalScrollBar().setUnitIncrement(30);
+        functionPanelViewport.setPreferredSize(new Dimension((int) (Constants.FUNCTION_PANE_WIDTH*1.1d), 650));
+        functionScrollPane.getVerticalScrollBar().setUnitIncrement(Constants.SCROLL_SPEED);
     }
     
     private void addFunctions(JComponent component){
+        component.setLayout(new BoxLayout(component, BoxLayout.PAGE_AXIS));
         FunctionPane diamondSquare = new FunctionPane("<html><h3>Diamond Square()</h3></html>", new String[]{
             "Size", "Random Divider", "Upper Left", "Bottom Left", "Upper Right", "Bottom Right",
             "Random Scalar"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
-                dataArray_List = DiamondSquareFractal.diamondSquareGenerate(this.getAllOptions());
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
+                Resources.dataArrayList.set(0, DiamondSquareFractal.diamondSquareGenerate(this.getAllOptions()));
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(diamondSquare);
@@ -68,10 +78,10 @@ public class GUI_Frame extends JFrame{
             "Height"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
-                TerrainGenMaster.flood(dataArray_List, this.getOption(0));
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
+                TerrainGenMaster.flood(Resources.dataArrayList.get(0), this.getOption(0));
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(flood);
@@ -80,10 +90,10 @@ public class GUI_Frame extends JFrame{
             "Min", "Max"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
-                TerrainGenMaster.addGaussianRandomness(dataArray_List, this.getAllOptions());
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
+                TerrainGenMaster.addGaussianRandomness(Resources.dataArrayList.get(0), this.getAllOptions());
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(addGaussianRandommness);
@@ -92,10 +102,10 @@ public class GUI_Frame extends JFrame{
             "Min", "Max"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
-                TerrainGenMaster.addRandomness(dataArray_List, this.getAllOptions());
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
+                TerrainGenMaster.addRandomness(Resources.dataArrayList.get(0), this.getAllOptions());
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(addRandommness);
@@ -104,13 +114,13 @@ public class GUI_Frame extends JFrame{
             "Repeat"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
                 int repeatTimes = (int) this.getOption(0);
                 for(int i = 0; i < repeatTimes; i++){
-                    TerrainGenMaster.laplacianSmooth(dataArray_List, dataArray_List);
+                    TerrainGenMaster.laplacianSmooth(Resources.dataArrayList.get(0), Resources.dataArrayList.get(0));
                 }
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(laplacian);
@@ -119,10 +129,10 @@ public class GUI_Frame extends JFrame{
             "Number of Sides of Shape", "Center X", "Center Y", "Radius", "Height"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
-                TerrainGenMaster.makeFlatShape(dataArray_List, this.getAllOptions());
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
+                TerrainGenMaster.makeFlatShape(Resources.dataArrayList.get(0), this.getAllOptions());
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(shape);  
@@ -131,10 +141,10 @@ public class GUI_Frame extends JFrame{
             "Number of Sides of Shape", "Center X", "Center Y", "Radius"}) {
             @Override
             public void function() {
-                undoList = ArrayUtil.copyArray(dataArray_List);
-                TerrainGenMaster.keepShape(dataArray_List, this.getAllOptions());
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                undoList = ArrayUtil.copyArray(Resources.dataArrayList.get(0));
+                TerrainGenMaster.keepShape(Resources.dataArrayList.get(0), this.getAllOptions());
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(keepShape);        
@@ -143,9 +153,9 @@ public class GUI_Frame extends JFrame{
             }) {
             @Override
             public void function() {
-                dataArray_List = undoList;
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                Resources.dataArrayList.set(0, undoList);
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(undo);
@@ -159,42 +169,25 @@ public class GUI_Frame extends JFrame{
             @Override
             public void function() {
                 TerrainGenMaster.mapScale(this.getAllOptions());
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
+                updateImage(Resources.dataArrayList.get(0));
+                updateStats(Resources.dataArrayList.get(0));
             }
         };
         component.add(mapScale);
-        
-        FunctionPane read = new FunctionPane("<html><h3>Read()</h3></html>", new String[]{
-        }) {
-            @Override
-            public void function() {
-                dataArray_List = TerrainGenMaster.readBinary();
-                updateImage(dataArray_List);
-                updateStats(dataArray_List);
-            }
-        };
-        component.add(read);
-        
-        FunctionPane write = new FunctionPane("<html><h3>Write()</h3></html>", new String[]{
-            "File Number"}) {
-            @Override
-            public void function() {
-                TerrainGenMaster.writeImage(dataArray_List, this.getAllOptions());
-                TerrainGenMaster.writeBinary(dataArray_List, this.getAllOptions());
-            }
-        };
-        component.add(write);
     }
     
-    public void updateImage(double[][] dataArray){
+    public static void updateImage(double[][] dataArray){
         Image image = TerrainGenMaster.getUpdatedImage(dataArray).getScaledInstance(650, 650, Image.SCALE_SMOOTH);
         picLabel.setIcon(new ImageIcon(image));
     }
     
-    public void updateStats(double[][] dataArray){
-        Stats stats = StatsUtil.getStats(dataArray);
-        double[] data = new double[]{stats.mean, stats.max, stats.min};
-        this.stats.updateData(data);
+    public static void updateStats(double[][] dataArray){
+        Stats statistics = StatsUtil.getStats(dataArray);
+        double[] data = new double[]{statistics.mean, statistics.max, statistics.min};
+        stats.updateData(data);
+    }
+    
+    public static double[][] getActiveDataArray(){
+        return Resources.dataArrayList.get(0);
     }
 }

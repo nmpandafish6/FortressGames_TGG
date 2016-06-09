@@ -3,6 +3,8 @@ package programbuilder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
@@ -30,31 +32,30 @@ public abstract class FunctionPane extends JPanel{
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.title = new JLabel(title);
         this.button = new JButton("Apply");
-        this.blackline = BorderFactory.createLineBorder(Color.black);
-        this.button.addMouseListener(new MouseListener() {
+        this.button.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 function();
             }
-            @Override public void mousePressed(MouseEvent e) {}
-            @Override public void mouseReleased(MouseEvent e) {}
-            @Override public void mouseEntered(MouseEvent e) {}
-            @Override public void mouseExited(MouseEvent e) {}
         });
-        this.setPreferredSize(new Dimension(300, 300));
+        this.blackline = BorderFactory.createLineBorder(Color.black);
         this.setBorder(blackline);
         this.add(this.title);
         this.options = new LabeledTextField[options.length];
         for(int i = 0; i < options.length; i++){
             this.options[i] = new LabeledTextField(options[i]);
-            this.options[i].setMaximumSize(this.options[i].getPreferredSize());
-            this.options[i].setAlignmentX(0);
-            this.add(leftJustify(this.options[i]));
+            this.add(box(this.options[i]));
         }
         this.add((this.button));
+        this.setPreferredSize(new Dimension(Constants.FUNCTION_PANE_WIDTH, 
+                (int) (this.getPreferredSize().height+10)));
+        for(int i = 0; i < options.length; i++){
+            this.options[i].validate();
+        }
     }
 
     public abstract void function();
+    
     public double getOption(int i){
         try{
             return Double.parseDouble(this.options[i].get());
@@ -71,10 +72,9 @@ public abstract class FunctionPane extends JPanel{
         return values;
     }
     
-    private Component leftJustify( JComponent panel )  {
+    private Component box( JComponent panel )  {
         Box  b = Box.createHorizontalBox();
         b.add( panel );
-        b.add( Box.createHorizontalGlue() );
         return b;
     }
 }

@@ -7,12 +7,6 @@ package util;
 public class ArrayUtil {
     public static double[] scaledOneDimensionalArray(double[][] arr, double lowStart, double highStart){
         double[] scaledArray = oneDimensionalArray(arr);
-        double min = Double.MAX_VALUE;
-        double max = -Double.MAX_VALUE;
-        for(int i = 0; i < scaledArray.length; i ++){
-            if(scaledArray[i] > max) max = scaledArray[i];
-            if(scaledArray[i] < min) min = scaledArray[i];
-        }
         for(int i = 0; i < scaledArray.length; i ++){
             scaledArray[i] = MathUtil.map(scaledArray[i], lowStart, highStart, 0, 255);
         }

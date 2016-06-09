@@ -25,17 +25,8 @@ public class TerrainGenMaster {
         
     public static double sourceLow  = 0;
     public static double sourceHigh = 255;
-    public static void writeImage(double[][] target, double[] options){
-        BufferedImage image = (BufferedImage) getUpdatedImage(target);
-        try {
-            int fileNumber = (int) options[0];
-            ImageIO.write(image, "png", new File("Image_" + fileNumber + ".png"));
-        } catch (IOException ex) {
-            Logger.getLogger(TerrainGenMaster.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
     
-    public static Image getUpdatedImage(double[][] dataArray){
+    public static BufferedImage getUpdatedImage(double[][] dataArray){
         BufferedImage image = null;
         if(dataArray == null) {
             image = new BufferedImage(1, 1, BufferedImage.TYPE_BYTE_GRAY);
@@ -47,44 +38,6 @@ public class TerrainGenMaster {
         return image;
     }
     
-    public static void writeBinary(double[][] target, double[] options){
-        DataOutputStream out = null;
-        try {
-            int fileNumber = (int) options[0];
-            out = new DataOutputStream(new FileOutputStream("Binary_" + fileNumber + ".raw"));
-            int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray(target, sourceLow, sourceHigh)));
-            for(int i = 0; i < array.length; i++)
-                out.write(array[i]);
-            out.close();
-        } catch (Exception ex) {
-            Logger.getLogger(TerrainGenMaster.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public static double[][] readBinary(){
-        DataInputStream in = null;
-        double[][] target = null;
-        try {
-            JFileChooser fc = new JFileChooser();
-            fc.showOpenDialog(null);
-            if(fc.accept(null)){
-                File file = fc.getSelectedFile();
-                in = new DataInputStream(new FileInputStream(file));
-                int available = in.available();
-                int size = (int) (Math.sqrt(available));
-                target = new double[size][size];
-                for(int i = 0; i < size*size; i++){
-                    target[i / size][i % size] = ((int) in.readByte()) & 0xff;
-                }
-                
-            }
-            
-        } catch (Exception ex) {
-            Logger.getLogger(TerrainGenMaster.class.getName()).log(Level.SEVERE, null, ex);
-            target = new double[1][1];
-        }
-        return target;
-    }
     
     public static void laplacianSmooth(double[][] source, double[][] target) {
         for(int row = 0; row < source.length; row++){
