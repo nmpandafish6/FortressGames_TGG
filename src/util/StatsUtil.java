@@ -13,7 +13,7 @@ package util;
 public class StatsUtil {
     
     public static class Stats{
-        public Stats(){}
+        private Stats(){}
         public double mean;
         public double max;
         public double min;

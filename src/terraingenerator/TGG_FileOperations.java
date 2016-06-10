@@ -14,9 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
-import static terraingenerator.TerrainGenMaster.getUpdatedImage;
-import static terraingenerator.TerrainGenMaster.sourceHigh;
-import static terraingenerator.TerrainGenMaster.sourceLow;
+import programbuilder.resources.Resources;
 import util.ArrayUtil;
 
 /**
@@ -26,16 +24,12 @@ import util.ArrayUtil;
 public class TGG_FileOperations {
     
     public static void writeImage(double[][] target){
-        BufferedImage image = (BufferedImage) getUpdatedImage(target);
+        BufferedImage image = (BufferedImage) TGG_ImageUtil.getUpdatedImage(target);
         BufferedImage saveImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
         saveImage.setRGB(0, 0, saveImage.getWidth(), saveImage.getHeight(), 
-                image.getRGB(0, 0, saveImage.getWidth(), saveImage.getHeight(), null, 0, saveImage.getWidth()*saveImage.getHeight()), 0, saveImage.getWidth()*saveImage.getHeight());
+            image.getRGB(0, 0, saveImage.getWidth(), saveImage.getHeight(), null, 0, saveImage.getWidth()*saveImage.getHeight()), 0, saveImage.getWidth()*saveImage.getHeight());
         try {
-            JFileChooser fc = new JFileChooser();
-            fc.setDialogTitle("Save Image");
-            fc.showSaveDialog(null);
-            if(fc.accept(null)){
-                File file = fc.getSelectedFile();
+                File file = chooseSaveFile("Save Image");
                 String fileName = file.getPath();
                 String extension = getExtension(fileName);
                 boolean validExtension = false;
@@ -44,49 +38,46 @@ public class TGG_FileOperations {
                         validExtension = true;
                         break;
                     }
-                if(!validExtension) fileName = fileName + ".png";
+                if(!validExtension) {
+                    extension = "png";
+                    fileName = fileName + ".png";
+                }
                 ImageIO.write(saveImage, extension, new File(fileName));
-            }
         } catch (Exception ex) {}
     }
     
     public static void writeBinary(double[][] target){
         try {
-            JFileChooser fc = new JFileChooser();
-            fc.setDialogTitle("Save Raw");
-            fc.showSaveDialog(null);
-            if(fc.accept(null)){
-                File file = fc.getSelectedFile();
-                String fileName = file.getPath();
-                String extension = getExtension(fileName);
-                if(!extension.equals("raw")) fileName += ".raw";
-                DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
-                int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray(target, sourceLow, sourceHigh)));
-                for(int i = 0; i < array.length; i++)
-                    out.write(array[i]);
-                out.close();
-            }
+            File file = chooseSaveFile("Save Binary");  
+            String fileName = file.getPath();
+            String extension = getExtension(fileName);
+            if(!extension.equals("raw")) fileName += ".raw";
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
+            int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray(target, Resources.sourceLow, Resources.sourceHigh)));
+            for(int i = 0; i < array.length; i++)
+                out.write(array[i]);
+            out.close();
         } catch (Exception ex) {}
     }
     
     public static double[][] readBinary(){
         double[][] target = null;
         try {
-            JFileChooser fc = new JFileChooser();
-            fc.showOpenDialog(null);
-            if(fc.accept(null)){
-                File file = fc.getSelectedFile();
-                DataInputStream in = new DataInputStream(new FileInputStream(file));
-                int size = (int) (Math.sqrt(in.available()));
-                target = new double[size][size];
-                for(int i = 0; i < size*size; i++)
-                    target[i / size][i % size] = ((int) in.readByte()) & 0xff;
-            }
+            File file = chooseOpenFile("Open Raw");
+            DataInputStream in = new DataInputStream(new FileInputStream(file));
+            int size = (int) (Math.sqrt(in.available()));
+            target = new double[size][size];
+            for(int i = 0; i < size*size; i++)
+                target[i / size][i % size] = ((int) in.readByte()) & 0xff;           
         } catch (Exception ex) {
             target = new double[1][1];
         }
         return target;
     }
+    
+    /***************************************
+     * Private Functions                   *
+     ***************************************/
     
     private static String getExtension(String fileName){
         String extension = "";
@@ -95,5 +86,19 @@ public class TGG_FileOperations {
         if (i > p)
             extension = fileName.substring(i+1);
         return extension;
+    }
+    
+    private static File chooseSaveFile(String title){
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle(title);
+        fc.showSaveDialog(null);
+        return fc.getSelectedFile();
+    }
+    
+    private static File chooseOpenFile(String title){
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle(title);
+        fc.showOpenDialog(null);
+        return fc.getSelectedFile();
     }
 }

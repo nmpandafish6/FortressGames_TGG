@@ -1,4 +1,4 @@
-package programbuilder;
+package programbuilder.components;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

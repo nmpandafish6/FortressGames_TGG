@@ -4,15 +4,17 @@
  * and open the template in the editor.
  */
 
-package programbuilder;
+package programbuilder.components;
 
+import programbuilder.resources.Resources;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import static programbuilder.components.GUI_Frame.updateImage;
+import static programbuilder.components.GUI_Frame.updateStats;
 import terraingenerator.TGG_FileOperations;
-import terraingenerator.TerrainGenMaster;
 
 /**
  *
@@ -43,7 +45,7 @@ public class MenuBar extends JMenuBar{
                 exportRaw.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        TGG_FileOperations.writeBinary(GUI_Frame.getActiveDataArray());
+                        TGG_FileOperations.writeBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
                     }
                 });
                 fileMenu.add(exportRaw);
@@ -51,7 +53,7 @@ public class MenuBar extends JMenuBar{
                 exportImage.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        TGG_FileOperations.writeImage(GUI_Frame.getActiveDataArray());
+                        TGG_FileOperations.writeImage(Resources.dataArrayList.get(Resources.activeArrayElement));
                     }
                 });
                 fileMenu.add(exportImage);
@@ -59,11 +61,23 @@ public class MenuBar extends JMenuBar{
                 exportAll.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        TGG_FileOperations.writeBinary(GUI_Frame.getActiveDataArray());
-                        TGG_FileOperations.writeImage(GUI_Frame.getActiveDataArray());
+                        TGG_FileOperations.writeBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
+                        TGG_FileOperations.writeImage(Resources.dataArrayList.get(Resources.activeArrayElement));
                     }
                 });
                 fileMenu.add(exportAll);
+        JMenu editMenu = new JMenu("Edit");
+            JMenuItem undo = new JMenuItem("Undo");
+                undo.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                            Resources.dataArrayList.set(0, Resources.undoArrayList.get(Resources.activeArrayElement));
+                            updateImage(Resources.dataArrayList.get(0));
+                            updateStats(Resources.dataArrayList.get(0));
+                        }
+                    });
+            editMenu.add(undo);
+        this.add(editMenu);
         JMenu settingsMenu = new JMenu("Settings");
             JMenuItem temp1 = new JMenuItem("Coming Soon...");
             temp1.setEnabled(false);

@@ -1,4 +1,4 @@
-package programbuilder;
+package programbuilder.components;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
