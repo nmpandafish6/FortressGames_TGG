@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package programbuilder.components.menu;
 
-package programbuilder.components;
-
-import programbuilder.resources.Resources;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import static programbuilder.components.GUI_Frame.updateImage;
-import static programbuilder.components.GUI_Frame.updateStats;
-import terraingenerator.TGG_FileOperations;
+import programbuilder.resources.*;
+import java.awt.event.*;
+import javax.swing.*;
+import programbuilder.components.GUI_Frame;
+import terraingenerator.*;
 
 /**
  *
@@ -72,8 +62,8 @@ public class MenuBar extends JMenuBar{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                             Resources.dataArrayList.set(0, Resources.undoArrayList.get(Resources.activeArrayElement));
-                            updateImage(Resources.dataArrayList.get(0));
-                            updateStats(Resources.dataArrayList.get(0));
+                            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+                            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
                         }
                     });
             editMenu.add(undo);

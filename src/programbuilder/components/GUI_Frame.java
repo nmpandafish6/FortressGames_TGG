@@ -1,5 +1,8 @@
 package programbuilder.components;
 
+import programbuilder.components.menu.MenuBar;
+import programbuilder.components.panels.DataPane;
+import programbuilder.components.panels.FunctionPanes;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
@@ -70,6 +73,11 @@ public class GUI_Frame extends JFrame{
         component.add(stats);
         
         component.add(FunctionPanes.mapScale);
+        
+        component.add(FunctionPanes.binaryAnd);
+        component.add(FunctionPanes.binaryOr);
+        component.add(FunctionPanes.binaryXOr);
+        component.add(FunctionPanes.binaryNot);
     }
     
     public static void updateImage(double[][] dataArray){

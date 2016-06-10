@@ -40,6 +40,14 @@ public class ArrayUtil {
         return shortArray;
     }
     
+    public static double[][] intToDoubleArray(int[][] arr){
+        double[][] doubleArray = new double[arr.length][arr[0].length];
+        for(int row = 0; row < arr.length; row++)
+            for(int col = 0; col < arr[0].length; col++)
+                doubleArray[row][col] = arr[row][col];           
+        return doubleArray;
+    }
+    
     public static double[][] copyArray(double[][] source){
         double[][] target = null;
         if(source != null){

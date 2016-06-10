@@ -1,19 +1,11 @@
-package programbuilder.components;
+package programbuilder.components.panels;
 
-import programbuilder.resources.Constants;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
+import programbuilder.components.dataFields.LabeledTextField;
+import programbuilder.resources.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 /**
  * JPanel with a function to perform with optional options
@@ -21,31 +13,28 @@ import javax.swing.border.Border;
  */
 public abstract class FunctionPane extends JPanel{    
     
-    private final JLabel title;
-    private final JButton button;
-    private final Border blackline;
+    
     private final LabeledTextField[] options;
     
-    public FunctionPane(String title, String[] options){
+    public FunctionPane(String titleString, String[] options){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.title = new JLabel(title);
-        this.button = new JButton("Apply");
-        this.button.addActionListener(new ActionListener() {
+        JLabel title = new JLabel(titleString);
+        JButton button = new JButton("Apply");
+        button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 function();
             }
         });
-        this.blackline = BorderFactory.createLineBorder(Color.black);
-        this.setBorder(blackline);
-        this.add(this.title);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(title);
         this.options = new LabeledTextField[options.length];
         for(int i = 0; i < options.length; i++){
             this.options[i] = new LabeledTextField(options[i]);
             this.add(box(this.options[i]));
         }
-        this.add((this.button));
+        this.add((button));
         this.setPreferredSize(new Dimension(Constants.FUNCTION_PANE_WIDTH, 
                 (int) (this.getPreferredSize().height+10)));
         for(int i = 0; i < options.length; i++){

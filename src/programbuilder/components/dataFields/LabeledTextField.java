@@ -1,12 +1,7 @@
-package programbuilder.components;
+package programbuilder.components.dataFields;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import javax.swing.*;
 
 /**
  * Creates a generic text field with a label to the left of it

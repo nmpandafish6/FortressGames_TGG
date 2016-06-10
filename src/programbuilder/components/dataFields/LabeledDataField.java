@@ -1,8 +1,6 @@
-package programbuilder.components;
+package programbuilder.components.dataFields;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  * Creates a generic text field with a label to the left of it
@@ -11,15 +9,13 @@ import javax.swing.JTextField;
 public class LabeledDataField extends JPanel{
     
     private final JLabel dataField;
-    private final JLabel label;
     /**
      * Constructor
      * @param title label to data field
      */
     public LabeledDataField(String title){
         dataField = new JLabel("0.0");
-        label = new JLabel(title);
-        this.add(label);
+        this.add(new JLabel(title));
         this.add(dataField);
     }
     

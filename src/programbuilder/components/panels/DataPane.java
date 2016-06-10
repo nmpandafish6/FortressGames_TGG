@@ -1,14 +1,9 @@
-package programbuilder.components;
+package programbuilder.components.panels;
 
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
+import programbuilder.components.dataFields.LabeledDataField;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.*;
 
 /**
  * JPanel with a function to perform with optional options
@@ -16,18 +11,14 @@ import javax.swing.border.Border;
  */
 public class DataPane extends JPanel{    
     
-    private final JLabel title;
-    private final Border blackline;
     private final LabeledDataField[] dataFields;
     
-    public DataPane(String title, String[] dataLabels){
+    public DataPane(String titleString, String[] dataLabels){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.title = new JLabel(title);
-        this.blackline = BorderFactory.createLineBorder(Color.black);
-        
-        this.setBorder(blackline);
-        this.add(this.title);
+        JLabel title = new JLabel(titleString);
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(title);
         this.dataFields = new LabeledDataField[dataLabels.length];
         for(int i = 0; i < dataLabels.length; i++){
             this.dataFields[i] = new LabeledDataField(dataLabels[i]);

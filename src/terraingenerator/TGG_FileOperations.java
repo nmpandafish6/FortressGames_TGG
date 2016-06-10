@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package terraingenerator;
 
 import java.awt.image.BufferedImage;
@@ -75,6 +69,21 @@ public class TGG_FileOperations {
         return target;
     }
     
+    public static double[][] readBinary(String path){
+        double[][] target = null;
+        try {
+            File file = new File(path);
+            DataInputStream in = new DataInputStream(new FileInputStream(file));
+            int size = (int) (Math.sqrt(in.available()));
+            target = new double[size][size];
+            for(int i = 0; i < size*size; i++)
+                target[i / size][i % size] = ((int) in.readByte()) & 0xff;           
+        } catch (Exception ex) {
+            target = new double[1][1];
+        }
+        return target;
+    }
+    
     /***************************************
      * Private Functions                   *
      ***************************************/
@@ -88,14 +97,14 @@ public class TGG_FileOperations {
         return extension;
     }
     
-    private static File chooseSaveFile(String title){
+    public static File chooseSaveFile(String title){
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle(title);
         fc.showSaveDialog(null);
         return fc.getSelectedFile();
     }
     
-    private static File chooseOpenFile(String title){
+    public static File chooseOpenFile(String title){
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle(title);
         fc.showOpenDialog(null);
