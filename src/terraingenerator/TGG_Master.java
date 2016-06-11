@@ -45,6 +45,14 @@ public class TGG_Master {
         }
     }
     
+    public static void lnFunction(double[][] target){
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                target[row][col] = Math.log(target[row][col] + 1);
+            }
+        }
+    }
+    
     public static void mapScale(double[] options){
         Resources.sourceLow = options[0];
         Resources.sourceHigh = options[1];

@@ -1,11 +1,11 @@
 package programbuilder.components;
 
-import programbuilder.components.menu.MenuBar;
-import programbuilder.components.panels.DataPane;
-import programbuilder.components.panels.FunctionPanes;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.*;
+import programbuilder.components.menu.MenuBar;
+import programbuilder.components.panels.*;
 import programbuilder.resources.*;
 import terraingenerator.*;
 import util.StatsUtil;
@@ -31,7 +31,7 @@ public class GUI_Frame extends JFrame{
         JMenuBar menu                    = new MenuBar();
         JScrollPane functionScrollPane   = new JScrollPane();
         JPanel functionPanel             = new JPanel();
-        JTabbedPane mapTabPanel          = new JTabbedPane();
+        ClosableTabPane mapTabPanel      = new ClosableTabPane();
         JSplitPane splitPane             = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
             functionScrollPane, mapTabPanel);
         picLabels = new ArrayList<>();
@@ -40,11 +40,20 @@ public class GUI_Frame extends JFrame{
         
         GUI_Frame.addFunctions(functionPanel);
         GUI_Frame.generateScrollPane(functionPanel, functionScrollPane);
-        mapTabPanel.addTab("default", picLabels.get(0));
+        mapTabPanel.addClosableTab("default", picLabels.get(0));
         masterPanel.add(splitPane);
         this.setJMenuBar(menu);
         this.add(masterPanel);
         updateImage(null);
+        
+        mapTabPanel.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent changeEvent) {
+                JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+                int index = sourceTabbedPane.getSelectedIndex();
+                System.out.println("Tab changed to: " + index);
+            }
+        });
     }
     
     private static void generateScrollPane(JPanel functionPanel, JScrollPane functionScrollPane){
@@ -62,6 +71,7 @@ public class GUI_Frame extends JFrame{
 
         component.add(FunctionPanes.diamondSquare);
         component.add(FunctionPanes.flood);
+        component.add(FunctionPanes.lnFunction);
         component.add(FunctionPanes.addGaussianRandommness);
         component.add(FunctionPanes.addRandommness);
         component.add(FunctionPanes.laplacian);

@@ -12,12 +12,33 @@ import javax.swing.*;
  */
 public abstract class BinaryFunctionPane extends JPanel{    
     
+
+    private boolean collapsed = false;
+    private final JButton collapseButton;
+    private final JPanel masterPanel;
     private final LabeledFileTextField[] fileOptions;
     
     public BinaryFunctionPane(String titleString, int options){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel titlePanel = new JPanel(new BorderLayout());
         JLabel title = new JLabel(titleString);
+        collapseButton = new JButton("^");
+        collapseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collapsed = !collapsed;
+                if(collapsed){
+                    remove(masterPanel);
+                    collapseButton.setText("v");
+                }else{
+                    add(masterPanel);
+                    collapseButton.setText("^");
+                }
+            }
+        });
+        collapseButton.setMargin(new Insets(0,6,0,6));
+        masterPanel = new JPanel();
         JButton button = new JButton("Apply");
         button.addActionListener(new ActionListener() {
             @Override
@@ -25,16 +46,21 @@ public abstract class BinaryFunctionPane extends JPanel{
                 function();
             }
         });
+        masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));  
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.add(title);
+        this.add(titlePanel);
+        titlePanel.add(title, BorderLayout.CENTER);
+        titlePanel.add(collapseButton, BorderLayout.EAST);
+        titlePanel.setMaximumSize(new Dimension(titlePanel.getMaximumSize().width, titlePanel.getPreferredSize().height));
         this.fileOptions = new LabeledFileTextField[options];
         for(int i = 0; i < options; i++){
             this.fileOptions[i] = new LabeledFileTextField("Matrix " + i);
-            this.add(box(this.fileOptions[i]));
+            masterPanel.add(box(this.fileOptions[i]));
         }
-        this.add((button));
-        this.setPreferredSize(new Dimension(Constants.FUNCTION_PANE_WIDTH, 
-                (int) (this.getPreferredSize().height+10)));
+        masterPanel.add((button));
+        this.add(masterPanel);
+        masterPanel.setPreferredSize(new Dimension(Constants.FUNCTION_PANE_WIDTH, 
+                (int) (masterPanel.getPreferredSize().height+10)));
         for(int i = 0; i < options; i++)
             this.fileOptions[i].validate();
     }

@@ -31,6 +31,7 @@ public class LabeledFileTextField extends JPanel{
         this.add(new JLabel(title), BorderLayout.WEST);
         this.add(textField, BorderLayout.CENTER);
         this.add(browseButton, BorderLayout.EAST);
+        this.setMaximumSize(new Dimension(this.getMaximumSize().width, this.getPreferredSize().height));
     }
     
     @Override

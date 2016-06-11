@@ -1,5 +1,6 @@
 package programbuilder.components.dataFields;
 
+import java.awt.Dimension;
 import javax.swing.*;
 
 /**
@@ -17,6 +18,7 @@ public class LabeledDataField extends JPanel{
         dataField = new JLabel("0.0");
         this.add(new JLabel(title));
         this.add(dataField);
+        this.setMaximumSize(new Dimension(this.getMaximumSize().width, this.getPreferredSize().height));
     }
     
     public void put(String data){

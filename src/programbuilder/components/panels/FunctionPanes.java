@@ -38,11 +38,24 @@ public class FunctionPanes {
             GUI_Frame.updateStats(Resources.dataArrayList.get(0));
         }
     };
+    
+    /**
+     * Log Function
+     */                    
+    public static final FunctionPane lnFunction = new FunctionPane("<html><h3>Ln Function()</h3></html>", new String[]{}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            TGG_Master.lnFunction(Resources.dataArrayList.get(0));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
 
     /**
      * Add Gaussian Randomness Function
      */    
-    public static final FunctionPane addGaussianRandommness = new FunctionPane("<html><h3>addGaussianRandommness()</h3></html>", new String[]{
+    public static final FunctionPane addGaussianRandommness = new FunctionPane("<html><h3>addGaussRandommness()</h3></html>", new String[]{
         "Min", "Max"}) {
         @Override
         public void function() {

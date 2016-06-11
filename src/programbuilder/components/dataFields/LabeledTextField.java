@@ -21,6 +21,7 @@ public class LabeledTextField extends JPanel{
         label = new JLabel(title);
         this.add(label, BorderLayout.WEST);
         this.add(textField, BorderLayout.EAST);
+        this.setMaximumSize(new Dimension(this.getMaximumSize().width, this.getPreferredSize().height));
     }
     
     @Override

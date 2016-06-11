@@ -1,9 +1,11 @@
 package programbuilder.components.menu;
 
-import programbuilder.resources.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import javax.swing.*;
 import programbuilder.components.GUI_Frame;
+import programbuilder.resources.*;
 import terraingenerator.*;
 
 /**
@@ -29,7 +31,16 @@ public class MenuBar extends JMenuBar{
                 });
                 fileMenu.add(importRaw);
             JMenuItem importImage = new JMenuItem("Import Image");
-                importImage.setEnabled(false);
+                importImage.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        double[][] image = TGG_ImageUtil.readDataFromImage(
+                        TGG_ImageUtil.getImageFromFile(TGG_FileOperations.chooseOpenFile("Open Image").getPath()));
+                        Resources.dataArrayList.set(0, image);
+                        GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+                        GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+                    }
+                });
                 fileMenu.add(importImage);
             JMenuItem exportRaw = new JMenuItem("Export Raw");
                 exportRaw.addActionListener(new ActionListener() {
