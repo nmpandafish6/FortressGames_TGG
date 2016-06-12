@@ -133,4 +133,40 @@ public class TGG_Master {
             }
         }
     }
+    
+    public static double[][] magicSquare(int width){
+        double[][] target = new double[width][width];
+        int x = width - 1;
+        int y = width / 2;
+        for(int i = 1; i < width*width + 1; i++){
+            while(target[y][x] != 0){
+                x -= 2;
+                y++;
+                y = (y + width) % width;
+                x = (x + width) % width;
+                if(y == -1 && x == width){
+                    y = 0;
+                    x = width - 2;
+                }
+                y = (y + width) % width;
+                x = (x + width) % width;
+            }
+            
+            y = (y + width) % width;
+            x = (x + width) % width;
+            target[y][x] = i;
+            y--;
+            x++;
+            y = (y + width) % width;
+            x = (x + width) % width;
+            if(y == -1 && x == width){
+                    y = 0;
+                    x = width - 2;
+            }
+            y = (y + width) % width;
+            x = (x + width) % width;
+        }
+        System.out.println(Arrays.deepToString(target));
+        return target;
+    }
 }

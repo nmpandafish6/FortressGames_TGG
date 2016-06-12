@@ -70,6 +70,7 @@ public class GUI_Frame extends JFrame{
         component.setLayout(new BoxLayout(component, BoxLayout.PAGE_AXIS));
 
         component.add(FunctionPanes.diamondSquare);
+        component.add(FunctionPanes.magicSquare);
         component.add(FunctionPanes.flood);
         component.add(FunctionPanes.lnFunction);
         component.add(FunctionPanes.addGaussianRandommness);

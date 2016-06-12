@@ -24,6 +24,20 @@ public class FunctionPanes {
             GUI_Frame.updateStats(Resources.dataArrayList.get(0));
         }
     };
+    
+    /**
+     * Magic Square Function
+     */
+    public static final FunctionPane magicSquare = new FunctionPane("<html><h3>Magic Square()</h3></html>", new String[]{
+        "Size"}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            Resources.dataArrayList.set(0, TGG_Master.magicSquare((int) this.getOption(0)));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
             
     /**
      * Flood Function
