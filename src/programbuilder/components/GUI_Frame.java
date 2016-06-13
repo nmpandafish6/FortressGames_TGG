@@ -84,6 +84,7 @@ public class GUI_Frame extends JFrame{
         component.add(stats);
         
         component.add(FunctionPanes.mapScale);
+        component.add(FunctionPanes.resize);
         
         component.add(FunctionPanes.binaryAnd);
         component.add(FunctionPanes.binaryOr);

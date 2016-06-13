@@ -33,9 +33,9 @@ public class FunctionPanes {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
-            Resources.dataArrayList.set(0, TGG_Master.magicSquare((int) this.getOption(0)));
-            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
-            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+            Resources.dataArrayList.set(Resources.activeArrayElement, TGG_Master.magicSquare((int) this.getOption(0)));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(Resources.activeArrayElement));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(Resources.activeArrayElement));
         }
     };
             
@@ -146,6 +146,21 @@ public class FunctionPanes {
         @Override
         public void function() {
             TGG_Master.mapScale(this.getAllOptions());
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
+    
+    /**
+     * Map Resize Function
+     */
+    public static final FunctionPane resize = new FunctionPane("<html><h3>resize()</h3></html>", new String[]{
+        "Width", "Height"}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            Resources.dataArrayList.set(Resources.activeArrayElement, 
+                    TGG_Master.scaleArray(Resources.dataArrayList.get(Resources.activeArrayElement), (int) this.getOption(0), (int) this.getOption(1)));
             GUI_Frame.updateImage(Resources.dataArrayList.get(0));
             GUI_Frame.updateStats(Resources.dataArrayList.get(0));
         }

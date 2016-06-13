@@ -169,4 +169,34 @@ public class TGG_Master {
         System.out.println(Arrays.deepToString(target));
         return target;
     }
+    
+    public static double[][] scaleArray(double[][] source, int width, int height){
+        double[][] target = new double[height][width];
+        double xStepSize = ((double)(source[0].length - 1)) / (width - 1);
+        double yStepSize = ((double)(source.length - 1)) / (height - 1);
+        for(int row = 0; row < height; row++){
+            for(int col = 0; col < width; col++){
+                double deltaY = yStepSize * row;
+                double deltaX = xStepSize * col;
+                System.out.println(yStepSize + " , " + xStepSize);
+                int x1 = (int) Math.floor(deltaX);
+                int y1 = (int) Math.floor(deltaY);
+                int x2 = (int) Math.ceil(deltaX);
+                int y2 = (int) Math.ceil(deltaY);
+            
+                double val1 = source[y1][x1];
+                double val2 = source[y1][x2];
+                double val3 = source[y2][x1];
+                double val4 = source[y2][y2];
+                
+                double weightedAverage = (((val2 - val1) * (deltaX % 1) + val1) +
+                                          ((val4 - val2) * (deltaY % 1) + val2) +
+                                          ((val4 - val3) * (deltaX % 1) + val3) +
+                                          ((val3 - val1) * (deltaY % 1) + val1)) / 4d;
+                System.out.println(val1 + " , " + val2 + " , " + val3 + " , " + val4);
+                target[row][col] = weightedAverage;
+            }
+        }
+        return target;
+    }
 }

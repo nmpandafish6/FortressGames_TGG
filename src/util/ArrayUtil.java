@@ -5,10 +5,17 @@ package util;
  * @author Nicolas
  */
 public class ArrayUtil {
-    public static double[] scaledOneDimensionalArray(double[][] arr, double lowStart, double highStart){
+    public static double[] scaledOneDimensionalArray_8t(double[][] arr, double lowStart, double highStart){
         double[] scaledArray = oneDimensionalArray(arr);
         for(int i = 0; i < scaledArray.length; i ++){
-            scaledArray[i] = MathUtil.map(scaledArray[i], lowStart, highStart, 0, 255);
+            scaledArray[i] = MathUtil.map(scaledArray[i], lowStart, highStart, 0, 256);
+        }
+        return scaledArray;
+    }
+    public static double[] scaledOneDimensionalArray_16t(double[][] arr, double lowStart, double highStart){
+        double[] scaledArray = oneDimensionalArray(arr);
+        for(int i = 0; i < scaledArray.length; i ++){
+            scaledArray[i] = MathUtil.map(scaledArray[i], lowStart, highStart, 0, 256*256);
         }
         return scaledArray;
     }

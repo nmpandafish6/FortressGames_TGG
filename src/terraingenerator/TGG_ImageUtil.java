@@ -23,7 +23,7 @@ public class TGG_ImageUtil {
         }else{
             image = new BufferedImage(dataArray.length, dataArray[0].length, BufferedImage.TYPE_BYTE_GRAY);
             image.setRGB(0, 0, dataArray.length, dataArray[0].length, 
-                ArrayUtil.doubleToIntArray(ArrayUtil.scaledOneDimensionalArray(dataArray, Resources.sourceLow, Resources.sourceHigh)), 0, dataArray.length);
+                ArrayUtil.doubleToIntArray(ArrayUtil.scaledOneDimensionalArray_8t(dataArray, Resources.sourceLow, Resources.sourceHigh)), 0, dataArray.length);
         }
         return image;
     }
