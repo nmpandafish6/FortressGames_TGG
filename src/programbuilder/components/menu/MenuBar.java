@@ -42,14 +42,22 @@ public class MenuBar extends JMenuBar{
                     }
                 });
                 fileMenu.add(importImage);
-            JMenuItem exportRaw = new JMenuItem("Export Raw");
-                exportRaw.addActionListener(new ActionListener() {
+            JMenuItem exportRaw_8t = new JMenuItem("Export Raw (8 bit)");
+                exportRaw_8t.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        TGG_FileOperations.writeBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
+                        TGG_FileOperations.write8BitBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
                     }
                 });
-                fileMenu.add(exportRaw);
+                fileMenu.add(exportRaw_8t);
+            JMenuItem exportRaw_16t = new JMenuItem("Export Raw (16 bit)");
+                exportRaw_16t.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        TGG_FileOperations.write16BitBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
+                    }
+                });
+                fileMenu.add(exportRaw_16t);
             JMenuItem exportImage = new JMenuItem("Export Image");
                 exportImage.addActionListener(new ActionListener() {
                     @Override
@@ -62,7 +70,8 @@ public class MenuBar extends JMenuBar{
                 exportAll.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        TGG_FileOperations.writeBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
+                        TGG_FileOperations.write8BitBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
+                        TGG_FileOperations.write16BitBinary(Resources.dataArrayList.get(Resources.activeArrayElement));
                         TGG_FileOperations.writeImage(Resources.dataArrayList.get(Resources.activeArrayElement));
                     }
                 });

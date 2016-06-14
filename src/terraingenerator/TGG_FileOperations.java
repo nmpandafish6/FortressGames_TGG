@@ -40,9 +40,9 @@ public class TGG_FileOperations {
         } catch (Exception ex) {}
     }
     
-    public static void writeBinary(double[][] target){
+    public static void write8BitBinary(double[][] target){
         try {
-            File file = chooseSaveFile("Save Binary");  
+            File file = chooseSaveFile("Save 8-Bit Binary");  
             String fileName = file.getPath();
             String extension = getExtension(fileName);
             if(!extension.equals("raw")) fileName += ".raw";
@@ -56,7 +56,7 @@ public class TGG_FileOperations {
     
     public static void write16BitBinary(double[][] target){
         try {
-            File file = chooseSaveFile("Save Binary");  
+            File file = chooseSaveFile("Save 16-Bit Binary");  
             String fileName = file.getPath();
             String extension = getExtension(fileName);
             if(!extension.equals("raw")) fileName += ".raw";
@@ -75,10 +75,27 @@ public class TGG_FileOperations {
         try {
             File file = chooseOpenFile("Open Raw");
             DataInputStream in = new DataInputStream(new FileInputStream(file));
-            int size = (int) (Math.sqrt(in.available()));
+            int available = in.available();
+            int size = 1;
+            boolean isByteArray = true;
+            System.out.println(Math.sqrt(available/2) % 1);
+            if(Math.sqrt(available/2) % 1 == 0){
+                isByteArray = false;
+                size = (int) (Math.sqrt(available / 2));
+            }else{
+                isByteArray = true;
+                size = (int) (Math.sqrt(available));
+            }
+            
             target = new double[size][size];
-            for(int i = 0; i < size*size; i++)
-                target[i / size][i % size] = ((int) in.readByte()) & 0xff;           
+            for(int i = 0; i < size*size; i++){
+                if(isByteArray){
+                    target[i / size][i % size] = ((int) in.readByte()) & 0xff;
+                }else{
+                    target[i / size][i % size] = ((int) (in.read()) | (in.read() << 8)) & 0xffff;
+                }
+                  
+            }        
         } catch (Exception ex) {
             target = new double[1][1];
         }
@@ -90,10 +107,27 @@ public class TGG_FileOperations {
         try {
             File file = new File(path);
             DataInputStream in = new DataInputStream(new FileInputStream(file));
-            int size = (int) (Math.sqrt(in.available()));
+            int available = in.available();
+            int size = 1;
+            boolean isByteArray = true;
+            if(Math.sqrt(available/2) % 1 == 0){
+                isByteArray = false;
+                size = (int) (Math.sqrt(available / 2));
+            }else{
+                isByteArray = true;
+                size = (int) (Math.sqrt(available));
+            }
+            
             target = new double[size][size];
-            for(int i = 0; i < size*size; i++)
-                target[i / size][i % size] = ((int) in.readByte()) & 0xff;           
+            for(int i = 0; i < size*size; i++){
+                if(isByteArray){
+                    target[i / size][i % size] = ((int) in.readByte()) & 0xff;
+                }else{
+                    target[i / size][i % size] = ((int) (in.read() << 8) | (in.read())) & 0xffff;
+                }
+                  
+            }    
+                
         } catch (Exception ex) {
             target = new double[1][1];
         }
