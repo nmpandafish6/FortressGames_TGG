@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import javax.swing.*;
 import programbuilder.components.GUI_Frame;
+import programbuilder.components.HelpPane;
 import programbuilder.resources.*;
 import terraingenerator.*;
 
@@ -94,9 +95,18 @@ public class MenuBar extends JMenuBar{
             settingsMenu.add(temp1);
         this.add(settingsMenu);
         JMenu helpMenu = new JMenu("Help");
-            JMenuItem temp2 = new JMenuItem("Coming Soon...");
-            temp2.setEnabled(false);
-            helpMenu.add(temp2);
+            JMenuItem helpItem = new JMenuItem("How To Guide");
+                helpItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                            JFrame helpFrame = new JFrame();
+                            helpFrame.add(new HelpPane());
+                            helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                            helpFrame.setVisible(true);
+                            helpFrame.pack();
+                        }
+                    });
+            helpMenu.add(helpItem);
         this.add(helpMenu);
     }
 }
