@@ -70,6 +70,22 @@ public class TGG_FileOperations {
         } catch (Exception ex) {}
     }
     
+    public static void write16BitBinary(double[][] target, String destination){
+        try {
+            File file = new File(destination);
+            String fileName = file.getPath();
+            String extension = getExtension(fileName);
+            if(!extension.equals("raw")) fileName += ".raw";
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
+            int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray_16t(target, Resources.sourceLow, Resources.sourceHigh)));
+            for(int i = 0; i < array.length; i++){
+                out.write(array[i]);
+                out.write(array[i] >> 8);
+            }
+            out.close();
+        } catch (Exception ex) {}
+    }
+    
     public static double[][] readBinary(){
         double[][] target = null;
         try {

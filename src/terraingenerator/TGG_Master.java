@@ -1,5 +1,6 @@
 package terraingenerator;
 
+import java.io.File;
 import java.util.*;
 import programbuilder.resources.*;
 
@@ -198,5 +199,21 @@ public class TGG_Master {
             }
         }
         return target;
+    }
+    
+    public static double[][] automate(double[] options){
+        int size = (int) options[0];
+        int min   = (int) options[1];
+        int max   = (int) options[2];
+        double[][] result = null;
+        File file = TGG_FileOperations.chooseSaveFile("Save 16 Bit File (Generic Name)");
+        String name = file.getAbsolutePath();
+        for(int i = min; i < max; i++){
+            double[][] source = DiamondSquareFractal.diamondSquareGenerate(new double[]{size, 1, 100, 100, 100, 100, 100});
+            
+            TGG_FileOperations.write16BitBinary(source, name + i);
+            if(i == max - 1) result = source;
+        }
+        return result;
     }
 }

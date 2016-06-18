@@ -90,6 +90,8 @@ public class GUI_Frame extends JFrame{
         component.add(FunctionPanes.binaryOr);
         component.add(FunctionPanes.binaryXOr);
         component.add(FunctionPanes.binaryNot);
+        
+        component.add(FunctionPanes.automate);  
     }
     
     public static void updateImage(double[][] dataArray){

@@ -228,4 +228,17 @@ public class FunctionPanes {
             GUI_Frame.updateStats(Resources.dataArrayList.get(0));
         }
     };
+    
+    /**
+     * Automate Function with Preferred Values by Author
+     */
+    public static final FunctionPane automate = new FunctionPane("<html><h3>Automate()</h3></html>", new String[]{
+        "Size", "Min", "Max"}) {
+        @Override
+        public void function() {
+            Resources.dataArrayList.set(Resources.activeArrayElement, TGG_Master.automate(this.getAllOptions()));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
 }
