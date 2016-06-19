@@ -210,10 +210,18 @@ public class TGG_Master {
         String name = file.getAbsolutePath();
         for(int i = min; i < max; i++){
             double[][] source = DiamondSquareFractal.diamondSquareGenerate(new double[]{size, 1, 100, 100, 100, 100, 100});
+            for(int repeat = 0; repeat < 4; repeat++){
+                TGG_Master.laplacianSmooth(source, source);
+            }
+            TGG_Master.flood(source, 100);
             
+            Resources.sourceLow = 100;
+            Resources.sourceHigh = 255;
             TGG_FileOperations.write16BitBinary(source, name + i);
             if(i == max - 1) result = source;
         }
+        Resources.sourceLow = 0;
+        Resources.sourceHigh = 255;
         return result;
     }
 }
