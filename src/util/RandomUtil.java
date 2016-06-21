@@ -28,6 +28,8 @@ public class RandomUtil {
     }
     
     public double randomGaussian(double min, double max){
-        return rand.nextGaussian() * (max - min) / 2;
+        double result = rand.nextGaussian() * (max - min) / 2 + min;
+        System.out.println(result);
+        return result;
     }
 }

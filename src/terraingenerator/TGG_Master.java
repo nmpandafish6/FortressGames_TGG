@@ -3,6 +3,7 @@ package terraingenerator;
 import java.io.File;
 import java.util.*;
 import programbuilder.resources.*;
+import util.RandomUtil;
 
 /**
  * Master Class for Generic Terrain Gen Algorithms
@@ -213,9 +214,10 @@ public class TGG_Master {
             for(int repeat = 0; repeat < 4; repeat++){
                 TGG_Master.laplacianSmooth(source, source);
             }
-            TGG_Master.flood(source, 100);
-            
-            Resources.sourceLow = 100;
+            //TGG_Master.flood(source, 100);
+            double[] shapeOptions = new double[]{7, 129, 129, new RandomUtil().randomGaussian(100, 150)};
+            TGG_Master.keepShape(source, shapeOptions);
+            Resources.sourceLow = 0;
             Resources.sourceHigh = 255;
             TGG_FileOperations.write16BitBinary(source, name + i);
             if(i == max - 1) result = source;
