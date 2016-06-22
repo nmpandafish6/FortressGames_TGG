@@ -24,11 +24,12 @@ public class RandomUtil {
         double deltaX = rand.nextGaussian() * range;
         double deltaY = rand.nextGaussian() * range;
         Coordinate result = new Coordinate((int) (point.x + deltaX), (int)(point.y + deltaY));
+        System.out.println(result.x + "," + result.y);
         return result;
     }
     
     public double randomGaussian(double min, double max){
-        double result = rand.nextGaussian() * (max - min) / 2 + min;
+        double result = rand.nextGaussian() * (max - min) / 2 + (max-min/2);
         System.out.println(result);
         return result;
     }

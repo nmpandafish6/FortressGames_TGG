@@ -3,6 +3,7 @@ package terraingenerator;
 import java.io.File;
 import java.util.*;
 import programbuilder.resources.*;
+import util.ArrayUtil;
 import util.RandomUtil;
 
 /**
@@ -209,21 +210,45 @@ public class TGG_Master {
         double[][] result = null;
         File file = TGG_FileOperations.chooseSaveFile("Save 16 Bit File (Generic Name)");
         String name = file.getAbsolutePath();
-        for(int i = min; i < max; i++){
+        
+        for(int i = min; i <= max; i++){
+            Resources.sourceLow = 0;
+            Resources.sourceHigh = 255;
             double[][] source = DiamondSquareFractal.diamondSquareGenerate(new double[]{size, 1, 100, 100, 100, 100, 100});
             for(int repeat = 0; repeat < 4; repeat++){
                 TGG_Master.laplacianSmooth(source, source);
             }
+            int[][] original = ArrayUtil.doubleToIntArray(ArrayUtil.twoDimensionalArray(ArrayUtil.scaledOneDimensionalArray_16t(source, Resources.sourceLow, Resources.sourceHigh)));
             //TGG_Master.flood(source, 100);
-            double[] shapeOptions = new double[]{7, 129, 129, new RandomUtil().randomGaussian(100, 150)};
-            TGG_Master.keepShape(source, shapeOptions);
-            Resources.sourceLow = 0;
-            Resources.sourceHigh = 255;
-            TGG_FileOperations.write16BitBinary(source, name + i);
-            if(i == max - 1) result = source;
+            
+            double[][] buffer0 = ArrayUtil.intToDoubleArray(original);
+            double[] shapeOptions1 = new double[]{7, size/2, size/2, new RandomUtil().randomGaussian(40, 60)};
+            TGG_Master.keepShape(buffer0, shapeOptions1);
+            int[][] array0 = ArrayUtil.doubleToIntArray(buffer0);
+            
+            double[][] buffer1 = ArrayUtil.intToDoubleArray(original);
+            Coordinate coord1 = new RandomUtil().randomGaussianRangeCoord(new Coordinate(size/2, size/2), 20);
+            double[] shapeOptions2 = new double[]{7, coord1.x, coord1.y, new RandomUtil().randomGaussian(30, 50)};
+            TGG_Master.keepShape(buffer1, shapeOptions2);
+            int[][] array1 = ArrayUtil.doubleToIntArray(buffer1);
+            
+            double[][] buffer2 = ArrayUtil.intToDoubleArray(original);
+            Coordinate coord2 = new RandomUtil().randomGaussianRangeCoord(coord1, 20);
+            double[] shapeOptions3 = new double[]{7, coord2.x, coord2.y, new RandomUtil().randomGaussian(30, 50)};
+            TGG_Master.keepShape(buffer2, shapeOptions3);
+            int[][] array2 = ArrayUtil.doubleToIntArray(buffer2);
+            
+            
+            int[][] result1 = TGG_BinaryOperations.binaryOr(array0, array1);
+            int[][] result2 = TGG_BinaryOperations.binaryOr(result1, array2);
+            
+            double[][] finalResult = ArrayUtil.intToDoubleArray(result2);
+            System.out.println(Arrays.deepToString(finalResult));
+            //Resources.sourceLow = 0;
+            //Resources.sourceHigh = 0xffff;
+            TGG_FileOperations.write16BitBinary(finalResult, name + i);
+            if(i == max) result = finalResult;
         }
-        Resources.sourceLow = 0;
-        Resources.sourceHigh = 255;
         return result;
     }
 }
