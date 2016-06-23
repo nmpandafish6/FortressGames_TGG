@@ -215,26 +215,24 @@ public class TGG_Master {
             Resources.sourceLow = 0;
             Resources.sourceHigh = 255;
             double[][] source = DiamondSquareFractal.diamondSquareGenerate(new double[]{size, 1, 100, 100, 100, 100, 100});
-            for(int repeat = 0; repeat < 4; repeat++){
-                TGG_Master.laplacianSmooth(source, source);
-            }
+            
             int[][] original = ArrayUtil.doubleToIntArray(ArrayUtil.twoDimensionalArray(ArrayUtil.scaledOneDimensionalArray_16t(source, Resources.sourceLow, Resources.sourceHigh)));
             //TGG_Master.flood(source, 100);
             
             double[][] buffer0 = ArrayUtil.intToDoubleArray(original);
-            double[] shapeOptions1 = new double[]{7, size/2, size/2, new RandomUtil().randomGaussian(40, 60)};
+            double[] shapeOptions1 = new double[]{17, size/2, size/2, new RandomUtil().randomGaussian(60, 80)};
             TGG_Master.keepShape(buffer0, shapeOptions1);
             int[][] array0 = ArrayUtil.doubleToIntArray(buffer0);
             
             double[][] buffer1 = ArrayUtil.intToDoubleArray(original);
-            Coordinate coord1 = new RandomUtil().randomGaussianRangeCoord(new Coordinate(size/2, size/2), 20);
-            double[] shapeOptions2 = new double[]{7, coord1.x, coord1.y, new RandomUtil().randomGaussian(30, 50)};
+            Coordinate coord1 = new RandomUtil().randomGaussianRangeCoord(new Coordinate(size/2, size/2), 30);
+            double[] shapeOptions2 = new double[]{13, coord1.x, coord1.y, new RandomUtil().randomGaussian(60, 80)};
             TGG_Master.keepShape(buffer1, shapeOptions2);
             int[][] array1 = ArrayUtil.doubleToIntArray(buffer1);
             
             double[][] buffer2 = ArrayUtil.intToDoubleArray(original);
-            Coordinate coord2 = new RandomUtil().randomGaussianRangeCoord(coord1, 20);
-            double[] shapeOptions3 = new double[]{7, coord2.x, coord2.y, new RandomUtil().randomGaussian(30, 50)};
+            Coordinate coord2 = new RandomUtil().randomGaussianRangeCoord(coord1, 30);
+            double[] shapeOptions3 = new double[]{13, coord2.x, coord2.y, new RandomUtil().randomGaussian(60, 80)};
             TGG_Master.keepShape(buffer2, shapeOptions3);
             int[][] array2 = ArrayUtil.doubleToIntArray(buffer2);
             
@@ -242,8 +240,11 @@ public class TGG_Master {
             int[][] result1 = TGG_BinaryOperations.binaryOr(array0, array1);
             int[][] result2 = TGG_BinaryOperations.binaryOr(result1, array2);
             
-            double[][] finalResult = ArrayUtil.intToDoubleArray(result2);
-            System.out.println(Arrays.deepToString(finalResult));
+            double[][] result10 = ArrayUtil.intToDoubleArray(result2);
+            double[][] finalResult = new double[result10.length][result10[0].length];
+            for(int repeat = 0; repeat < 12; repeat++){
+                TGG_Master.laplacianSmooth(result10, finalResult);
+            }
             //Resources.sourceLow = 0;
             //Resources.sourceHigh = 0xffff;
             TGG_FileOperations.write16BitBinary(finalResult, name + i);
