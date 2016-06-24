@@ -72,6 +72,7 @@ public class GUI_Frame extends JFrame{
         component.add(FunctionPanes.diamondSquare);
         component.add(FunctionPanes.magicSquare);
         component.add(FunctionPanes.flood);
+        component.add(FunctionPanes.thresholdUp);
         component.add(FunctionPanes.lnFunction);
         component.add(FunctionPanes.addGaussianRandommness);
         component.add(FunctionPanes.addRandommness);

@@ -48,6 +48,16 @@ public class TGG_Master {
         }
     }
     
+    public static void thresholdUp(double[][] target, double minimum){
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                if(target[row][col] < minimum){
+                    target[row][col] = 0;
+                }
+            }
+        }
+    }
+    
     public static void lnFunction(double[][] target){
         for(int row = 0; row < target.length; row++){
             for(int col = 0; col < target[row].length; col++){

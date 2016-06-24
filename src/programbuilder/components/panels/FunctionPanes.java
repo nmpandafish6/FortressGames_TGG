@@ -54,6 +54,20 @@ public class FunctionPanes {
     };
     
     /**
+     * ThresholdUp Function
+     */                    
+    public static final FunctionPane thresholdUp = new FunctionPane("<html><h3>ThresholdUp()</h3></html>", new String[]{
+        "Height"}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            TGG_Master.thresholdUp(Resources.dataArrayList.get(0), this.getOption(0));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
+    
+    /**
      * Log Function
      */                    
     public static final FunctionPane lnFunction = new FunctionPane("<html><h3>Ln Function()</h3></html>", new String[]{}) {
