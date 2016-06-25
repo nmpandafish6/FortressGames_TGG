@@ -15,7 +15,8 @@ public class FunctionPanes {
      */
     public static final FunctionPane diamondSquare = new FunctionPane("<html><h3>Diamond Square()</h3></html>", new String[]{
         "Size", "Random Divider", "Upper Left", "Bottom Left", "Upper Right", "Bottom Right",
-        "Random Scalar"}) {
+        "Random Scalar"},
+        new double[]{257, 1, 100,100,100,100,100}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -29,7 +30,8 @@ public class FunctionPanes {
      * Magic Square Function
      */
     public static final FunctionPane magicSquare = new FunctionPane("<html><h3>Magic Square()</h3></html>", new String[]{
-        "Size"}) {
+        "Size"},
+        new double[]{9}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -43,7 +45,8 @@ public class FunctionPanes {
      * Flood Function
      */                    
     public static final FunctionPane flood = new FunctionPane("<html><h3>Flood()</h3></html>", new String[]{
-        "Height"}) {
+        "Height"},
+        new double[]{100}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -57,7 +60,8 @@ public class FunctionPanes {
      * ThresholdUp Function
      */                    
     public static final FunctionPane thresholdUp = new FunctionPane("<html><h3>ThresholdUp()</h3></html>", new String[]{
-        "Height"}) {
+        "Height"},
+        new double[]{100}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -84,7 +88,8 @@ public class FunctionPanes {
      * Add Gaussian Randomness Function
      */    
     public static final FunctionPane addGaussianRandommness = new FunctionPane("<html><h3>addGaussRandommness()</h3></html>", new String[]{
-        "Min", "Max"}) {
+        "Min", "Max"},
+        new double[]{100, 200}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -98,7 +103,8 @@ public class FunctionPanes {
      * Add Randomness Function
      */    
     public static final FunctionPane addRandommness = new FunctionPane("<html><h3>addRandommness()</h3></html>", new String[]{
-        "Min", "Max"}) {
+        "Min", "Max"},
+        new double[]{100, 200}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -112,7 +118,8 @@ public class FunctionPanes {
      * Laplacian Smooth Function
      */    
     public static final FunctionPane laplacian = new FunctionPane("<html><h3>Laplacian()</h3></html>", new String[]{
-        "Repeat"}) {
+        "Repeat"},
+        new double[]{4}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -128,7 +135,8 @@ public class FunctionPanes {
      * Make Flat Shape Function
      */
     public static final FunctionPane shape = new FunctionPane("<html><h3>MakeFlatShape()</h3></html>", new String[]{
-        "Number of Sides of Shape", "Center X", "Center Y", "Radius", "Height"}) {
+        "Number of Sides of Shape", "Center X", "Center Y", "Radius", "Height"},
+        new double[]{7, 129,129,50, 50}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -142,7 +150,8 @@ public class FunctionPanes {
      * Keep Shape Function
      */  
     public static final FunctionPane keepShape = new FunctionPane("<html><h3>keepShape()</h3></html>", new String[]{
-        "Number of Sides of Shape", "Center X", "Center Y", "Radius"}) {
+        "Number of Sides of Shape", "Center X", "Center Y", "Radius"},
+        new double[]{7,129,129,50}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -156,7 +165,8 @@ public class FunctionPanes {
      * Map Scale Function
      */
     public static final FunctionPane mapScale = new FunctionPane("<html><h3>mapScale()</h3></html>", new String[]{
-        "Source Low", "Source High"}) {
+        "Source Low", "Source High"},
+        new double[]{0, 255}) {
         @Override
         public void function() {
             TGG_Master.mapScale(this.getAllOptions());
@@ -169,7 +179,8 @@ public class FunctionPanes {
      * Map Resize Function
      */
     public static final FunctionPane resize = new FunctionPane("<html><h3>resize()</h3></html>", new String[]{
-        "Width", "Height"}) {
+        "Width", "Height"},
+        new double[]{100,100}) {
         @Override
         public void function() {
             Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
@@ -247,7 +258,8 @@ public class FunctionPanes {
      * Automate Function with Preferred Values by Author
      */
     public static final FunctionPane automate = new FunctionPane("<html><h3>Automate()</h3></html>", new String[]{
-        "Size", "Min", "Max"}) {
+        "Size", "Min", "Max"},
+        new double[]{257,0,100}) {
         @Override
         public void function() {
             Resources.dataArrayList.set(Resources.activeArrayElement, TGG_Master.automate(this.getAllOptions()));

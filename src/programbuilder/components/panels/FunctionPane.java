@@ -67,6 +67,58 @@ public abstract class FunctionPane extends JPanel{
         }
         
     }
+    
+    public FunctionPane(String titleString, String[] options, double[] defaults){
+        super();
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel(titleString);
+        collapseButton = new JButton("^");
+        collapseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                collapsed = !collapsed;
+                if(collapsed){
+                    remove(masterPanel);
+                    collapseButton.setText("v");
+                }else{
+                    add(masterPanel);
+                    collapseButton.setText("^");
+                }
+            }
+        });
+        collapseButton.setMargin(new Insets(0,6,0,6));
+        masterPanel = new JPanel();
+        JButton button = new JButton("Apply");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                function();
+            }
+        });
+        masterPanel.setLayout(new BoxLayout(masterPanel, BoxLayout.Y_AXIS));   
+        
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(titlePanel);
+        titlePanel.add(title, BorderLayout.CENTER);
+        titlePanel.add(collapseButton, BorderLayout.EAST);
+        titlePanel.setMaximumSize(new Dimension(titlePanel.getMaximumSize().width, titlePanel.getPreferredSize().height));
+        this.options = new LabeledTextField[options.length];
+        for(int i = 0; i < options.length; i++){
+            this.options[i] = new LabeledTextField(options[i]);
+            this.options[i].setTextField(defaults[i]);
+            masterPanel.add(box(this.options[i]));
+        }
+        this.add(masterPanel);
+        masterPanel.add((button));
+        masterPanel.setPreferredSize(new Dimension(Constants.FUNCTION_PANE_WIDTH, 
+                (int) (masterPanel.getPreferredSize().height+10)));
+        for(int i = 0; i < options.length; i++){
+            this.options[i].validate();
+        }
+        
+    }
+    
 
     public abstract void function();
     

@@ -36,4 +36,8 @@ public class LabeledTextField extends JPanel{
     public String get(){
         return this.textField.getText();
     }
+    
+    public void setTextField(double value){
+        this.textField.setText("" + value);
+    }
 }
