@@ -7,7 +7,6 @@
 package programbuilder.components;
 
 import java.awt.Dimension;
-import java.awt.Point;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,14 +14,11 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JEditorPane;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.rtf.RTFEditorKit;
-import programbuilder.TGG_Master;
-import programbuilder.resources.Constants;
 
 /**
  *
@@ -30,6 +26,9 @@ import programbuilder.resources.Constants;
  */
 public class HelpPane extends JPanel{
     
+    /**
+     * Constructor
+     */
     public HelpPane(){
         FileInputStream fi = null;
         try {

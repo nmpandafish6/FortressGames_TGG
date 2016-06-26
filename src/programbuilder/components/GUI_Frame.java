@@ -21,11 +21,18 @@ public class GUI_Frame extends JFrame{
     private static DataPane stats;
     private static GUI_Frame instance;
     
+    /**
+     * Singleton
+     * @return GUI_Frame
+     */
     public static GUI_Frame getInstance(){
         if(instance == null) instance = new GUI_Frame();
         return instance;
     }
     
+    /**
+     * Constructor
+     */
     private GUI_Frame(){
         JPanel masterPanel               = new JPanel();
         JMenuBar menu                    = new MenuBar();
@@ -56,6 +63,11 @@ public class GUI_Frame extends JFrame{
         });
     }
     
+    /**
+     * Generates scroll panel with functions
+     * @param functionPanel target panel
+     * @param functionScrollPane target scroll pane
+     */
     private static void generateScrollPane(JPanel functionPanel, JScrollPane functionScrollPane){
         functionPanel.setPreferredSize(new Dimension((int) (Constants.FUNCTION_PANE_WIDTH*1.1d),
             functionPanel.getPreferredSize().height));
@@ -66,6 +78,10 @@ public class GUI_Frame extends JFrame{
         functionScrollPane.getVerticalScrollBar().setUnitIncrement(Constants.SCROLL_SPEED);
     }
     
+    /**
+     * Adds functions to target component
+     * @param component target component to add functions to.
+     */
     private static void addFunctions(JComponent component){
         component.setLayout(new BoxLayout(component, BoxLayout.PAGE_AXIS));
 
@@ -95,11 +111,19 @@ public class GUI_Frame extends JFrame{
         component.add(FunctionPanes.automate);  
     }
     
+    /**
+     * Updates the image according to the data in dataArray
+     * @param dataArray heightmap data
+     */
     public static void updateImage(double[][] dataArray){
         Image image = TGG_ImageUtil.getUpdatedImage(dataArray).getScaledInstance(Constants.IMAGE_HEIGHT, Constants.IMAGE_HEIGHT, Image.SCALE_SMOOTH);
         picLabels.get(Resources.activeArrayElement).setIcon(new ImageIcon(image));
     }
     
+    /**
+     * Updates the statistics panels
+     * @param dataArray heightmap data
+     */
     public static void updateStats(double[][] dataArray){
         Stats statistics = StatsUtil.getStats(dataArray);
         double[] data = new double[]{statistics.mean, statistics.max, statistics.min};

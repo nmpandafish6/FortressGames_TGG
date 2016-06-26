@@ -1,8 +1,6 @@
 package programbuilder.components.menu;
 
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.util.Arrays;
 import javax.swing.*;
 import programbuilder.components.GUI_Frame;
 import programbuilder.components.HelpPane;
@@ -15,6 +13,9 @@ import terraingenerator.*;
  */
 public class MenuBar extends JMenuBar{
     
+    /**
+     * Creates a JMenuBar
+     */
     public MenuBar(){
         JMenu fileMenu = new JMenu("File");
         this.add(fileMenu);

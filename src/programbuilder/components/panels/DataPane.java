@@ -20,6 +20,11 @@ public class DataPane extends JPanel{
     private final JPanel masterPanel;
     private final LabeledDataField[] dataFields;
     
+    /**
+     * Creates a panel to place data in
+     * @param titleString title
+     * @param dataLabels data labels
+     */
     public DataPane(String titleString, String[] dataLabels){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -60,6 +65,10 @@ public class DataPane extends JPanel{
         this.updateData(new double[dataLabels.length]);
     }
     
+    /**
+     * Updates data in panel to values of data
+     * @param data data
+     */
     public void updateData(double[] data){
         for(int i = 0; i < data.length; i++){
             this.dataFields[i].put("" + data[i]);
