@@ -255,8 +255,6 @@ public class TGG_Master {
             for(int repeat = 0; repeat < 12; repeat++){
                 TGG_Master.laplacianSmooth(result10, finalResult);
             }
-            //Resources.sourceLow = 0;
-            //Resources.sourceHigh = 0xffff;
             TGG_FileOperations.write16BitBinary(finalResult, name + i);
             if(i == max) result = finalResult;
         }

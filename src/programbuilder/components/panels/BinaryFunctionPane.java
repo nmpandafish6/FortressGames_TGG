@@ -18,6 +18,11 @@ public abstract class BinaryFunctionPane extends JPanel{
     private final JPanel masterPanel;
     private final LabeledFileTextField[] fileOptions;
     
+    /**
+     * Creates a generic binary function
+     * @param titleString title 
+     * @param options option count
+     */
     public BinaryFunctionPane(String titleString, int options){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -65,12 +70,24 @@ public abstract class BinaryFunctionPane extends JPanel{
             this.fileOptions[i].validate();
     }
 
+    /**
+     * User defined function
+     */
     public abstract void function();
     
+    /**
+     * Gets the data from option number i
+     * @param i option number
+     * @return data
+     */
     public String getOption(int i){
         return this.fileOptions[i].get();
     }
     
+    /**
+     * Returns data from all options
+     * @return data from all options
+     */
     public String[] getAllOptions(){
         String[] values = new String[this.fileOptions.length];
         for(int i = 0; i < this.fileOptions.length; i++){

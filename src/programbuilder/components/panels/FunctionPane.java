@@ -18,6 +18,11 @@ public abstract class FunctionPane extends JPanel{
     private final JPanel masterPanel;
     private final LabeledTextField[] options;
     
+    /**
+     * Creates a generic function pane
+     * @param titleString title
+     * @param options option titles
+     */
     public FunctionPane(String titleString, String[] options){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -68,6 +73,12 @@ public abstract class FunctionPane extends JPanel{
         
     }
     
+    /**
+     * Creates a generic function pane with defaults
+     * @param titleString title
+     * @param options options
+     * @param defaults defaults
+     */
     public FunctionPane(String titleString, String[] options, double[] defaults){
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -120,8 +131,16 @@ public abstract class FunctionPane extends JPanel{
     }
     
 
+    /**
+     * User defined function
+     */
     public abstract void function();
     
+    /**
+     * Gets data from option i
+     * @param i option number
+     * @return  data
+     */
     public double getOption(int i){
         try{
             return Double.parseDouble(this.options[i].get());
@@ -130,6 +149,10 @@ public abstract class FunctionPane extends JPanel{
         }
     }
     
+    /**
+     * Returns data from all options
+     * @return data from all options
+     */
     public double[] getAllOptions(){
         double[] values = new double[this.options.length];
         for(int i = 0; i < this.options.length; i++){

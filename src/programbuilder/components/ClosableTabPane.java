@@ -15,10 +15,18 @@ import javax.swing.*;
  */
 public class ClosableTabPane extends JTabbedPane{
     
+    /**
+     * Constructor
+     */
     public ClosableTabPane(){
         super();
     }
     
+    /**
+     * Adds components to the tab
+     * @param title title of the tab
+     * @param tabBody body of the tab
+     */
     public void addClosableTab(String title, JComponent tabBody){
         this.addTab(title, tabBody);
         int index = this.indexOfComponent(tabBody);

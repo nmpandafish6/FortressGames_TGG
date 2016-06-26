@@ -21,6 +21,10 @@ public class LabeledDataField extends JPanel{
         this.setMaximumSize(new Dimension(this.getMaximumSize().width, this.getPreferredSize().height));
     }
     
+    /**
+     * Puts data into the data field
+     * @param data data
+     */
     public void put(String data){
         this.dataField.setText(data);
     }

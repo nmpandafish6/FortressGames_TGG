@@ -37,6 +37,10 @@ public class LabeledTextField extends JPanel{
         return this.textField.getText();
     }
     
+    /**
+     * Sets text. Used for default values
+     * @param value value
+     */
     public void setTextField(double value){
         this.textField.setText("" + value);
     }
