@@ -15,6 +15,10 @@ public class DiamondSquareFractal {
     private static Queue<TerrainGenData> queue = new LinkedList<>();
     private static int calls = 0;
     
+    
+    /**
+     * Struct declaring diamond or square sub operations
+     */
     private static class TerrainGenData{
         public TerrainGenData(Coordinate coord, int msize, boolean type){
             this.coord = coord;
@@ -26,6 +30,11 @@ public class DiamondSquareFractal {
         public boolean type;// true for diamond
     }
     
+    /**
+     * Performs the diamond square operation
+     * @param options size, randomDivider, upLeft, dwLeft, upRight, dwRight, and randomScalar (in that order)
+     * @return array of diamond square data
+     */
     public static double[][] diamondSquareGenerate(double[] options){
         calls = 0;
         int size = (int) options[0];
@@ -52,6 +61,12 @@ public class DiamondSquareFractal {
         return buffer;
     }
     
+    /**
+     * Performs a square operation in target
+     * @param target array to modify
+     * @param center center of square
+     * @param size size of square (left to center)
+     */
     public static void square(double[][] target, Coordinate center,int size){
         calls++;
         int x = center.x;
@@ -85,6 +100,12 @@ public class DiamondSquareFractal {
         }
     }
     
+    /**
+     * Performs a square operation in target
+     * @param target array to modify
+     * @param center center of square
+     * @param size size of square (left to center)
+     */
     public static void diamond(double[][] target, Coordinate center,int size){
         calls++;
         int x = center.x;

@@ -58,7 +58,6 @@ public class GUI_Frame extends JFrame{
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
                 int index = sourceTabbedPane.getSelectedIndex();
-                System.out.println("Tab changed to: " + index);
             }
         });
     }

@@ -94,7 +94,6 @@ public class TGG_FileOperations {
             int available = in.available();
             int size = 1;
             boolean isByteArray = true;
-            System.out.println(Math.sqrt(available/2) % 1);
             if(Math.sqrt(available/2) % 1 == 0){
                 isByteArray = false;
                 size = (int) (Math.sqrt(available / 2));

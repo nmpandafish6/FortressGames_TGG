@@ -44,7 +44,6 @@ public class TGG_ImageUtil {
             dataArray = ArrayUtil.intToDoubleArray(ArrayUtil.byteToIntArray(intArray));
         }
         
-        System.out.println(image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth() * image.getHeight()).length);
         return dataArray;
     }
     

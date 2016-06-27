@@ -179,7 +179,6 @@ public class TGG_Master {
             y = (y + width) % width;
             x = (x + width) % width;
         }
-        System.out.println(Arrays.deepToString(target));
         return target;
     }
     
@@ -191,7 +190,6 @@ public class TGG_Master {
             for(int col = 0; col < width; col++){
                 double deltaY = yStepSize * row;
                 double deltaX = xStepSize * col;
-                System.out.println(yStepSize + " , " + xStepSize);
                 int x1 = (int) Math.floor(deltaX);
                 int y1 = (int) Math.floor(deltaY);
                 int x2 = (int) Math.ceil(deltaX);
@@ -206,7 +204,6 @@ public class TGG_Master {
                                           ((val4 - val2) * (deltaY % 1) + val2) +
                                           ((val4 - val3) * (deltaX % 1) + val3) +
                                           ((val3 - val1) * (deltaY % 1) + val1)) / 4d;
-                System.out.println(val1 + " , " + val2 + " , " + val3 + " , " + val4);
                 target[row][col] = weightedAverage;
             }
         }
