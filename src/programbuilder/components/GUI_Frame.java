@@ -85,16 +85,19 @@ public class GUI_Frame extends JFrame{
         component.setLayout(new BoxLayout(component, BoxLayout.PAGE_AXIS));
 
         component.add(FunctionPanes.diamondSquare);
-        component.add(FunctionPanes.magicSquare);
+        component.add(FunctionPanes.laplacian);
+        component.add(FunctionPanes.shape);  
+        component.add(FunctionPanes.keepShape); 
         component.add(FunctionPanes.flood);
+        component.add(FunctionPanes.translate);
+        component.add(FunctionPanes.circularTranslate);
+        
         component.add(FunctionPanes.thresholdUp);
         component.add(FunctionPanes.thresholdBinary);
         component.add(FunctionPanes.lnFunction);
         component.add(FunctionPanes.addGaussianRandommness);
-        component.add(FunctionPanes.addRandommness);
-        component.add(FunctionPanes.laplacian);
-        component.add(FunctionPanes.shape);  
-        component.add(FunctionPanes.keepShape);  
+        component.add(FunctionPanes.addRandommness); 
+        component.add(FunctionPanes.magicSquare);
         
         stats = new DataPane("<html><h3>Stats</h3></html>", new String[]{
             "Mean", "Max ", "Min "});

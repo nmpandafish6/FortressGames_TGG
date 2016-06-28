@@ -75,6 +75,52 @@ public class TGG_Master {
         }
     }
     
+    /**
+     * Translates the array in the coordinate plane
+     * @param source array to modify
+     * @param options x and y translate values
+     * @return translated array
+     */
+    public static double[][] translate(double[][] source, double[] options){
+        int deltaX = (int) options[0];
+        int deltaY = (int) options[1];
+        double[][] target = new double[source.length][source[0].length];
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                if(row-deltaY > -1 && row-deltaY < target.length && col-deltaX > -1 && col-deltaX < target[0].length){
+                    target[row][col] = source[row-deltaY][col-deltaX];
+                }else{
+                    target[row][col] = 0;
+                }
+            }
+        }
+        return target;
+    }
+    
+    /**
+     * Translates the array in the coordinate plane and rotates elements to other side when applicable
+     * @param source array to modify
+     * @param options x and y translate values
+     * @return translated array
+     */
+    public static double[][] circularTranslate(double[][] source, double[] options){
+        int deltaX = (int) options[0];
+        int deltaY = (int) options[1];
+        double[][] target = new double[source.length][source[0].length];
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                int yCheck = ((row-deltaY) + target.length) % target.length;
+                int xCheck = ((col-deltaX) + target[0].length) % target[0].length;
+                if(yCheck > -1 && yCheck < target.length && xCheck > -1 && xCheck < target[0].length){
+                    target[row][col] = source[yCheck][xCheck];
+                }else{
+                    target[row][col] = 0;
+                }
+            }
+        }
+        return target;
+    }
+    
     public static void lnFunction(double[][] target){
         for(int row = 0; row < target.length; row++){
             for(int col = 0; col < target[row].length; col++){

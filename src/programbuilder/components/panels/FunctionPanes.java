@@ -42,6 +42,36 @@ public class FunctionPanes {
     };
             
     /**
+     * Translate Function
+     */                    
+    public static final FunctionPane translate = new FunctionPane("<html><h3>Translate()</h3></html>", new String[]{
+        "Delta X","Delta Y"},
+        new double[]{20,20}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            Resources.dataArrayList.set(Resources.activeArrayElement, TGG_Master.translate(Resources.dataArrayList.get(0), this.getAllOptions()));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
+    
+    /**
+     * Circular Translate Function
+     */                    
+    public static final FunctionPane circularTranslate = new FunctionPane("<html><h3>Circular Translate()</h3></html>", new String[]{
+        "Delta X","Delta Y"},
+        new double[]{20,20}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            Resources.dataArrayList.set(Resources.activeArrayElement, TGG_Master.circularTranslate(Resources.dataArrayList.get(0), this.getAllOptions()));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
+    
+    /**
      * Flood Function
      */                    
     public static final FunctionPane flood = new FunctionPane("<html><h3>Flood()</h3></html>", new String[]{
