@@ -85,6 +85,7 @@ public class GUI_Frame extends JFrame{
         component.setLayout(new BoxLayout(component, BoxLayout.PAGE_AXIS));
 
         component.add(FunctionPanes.diamondSquare);
+        component.add(FunctionPanes.circularDiamondSquare);
         component.add(FunctionPanes.laplacian);
         component.add(FunctionPanes.shape);  
         component.add(FunctionPanes.keepShape); 

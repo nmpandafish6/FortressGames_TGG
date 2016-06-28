@@ -27,6 +27,22 @@ public class FunctionPanes {
     };
     
     /**
+     * Diamond Square Function
+     */
+    public static final FunctionPane circularDiamondSquare = new FunctionPane("<html><h3>Circular Diamond Square()</h3></html>", new String[]{
+        "Size", "Random Divider", "Upper Left", "Bottom Left", "Upper Right", "Bottom Right",
+        "Random Scalar"},
+        new double[]{257, 1, 100,100,100,100,100}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            Resources.dataArrayList.set(0, CircularDiamondSquareFractal.diamondSquareGenerate(this.getAllOptions()));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
+    
+    /**
      * Magic Square Function
      */
     public static final FunctionPane magicSquare = new FunctionPane("<html><h3>Magic Square()</h3></html>", new String[]{
