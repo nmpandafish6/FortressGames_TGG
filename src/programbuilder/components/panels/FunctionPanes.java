@@ -70,6 +70,20 @@ public class FunctionPanes {
             GUI_Frame.updateStats(Resources.dataArrayList.get(0));
         }
     };
+    /**
+     * ThresholdBinary Function
+     */                    
+    public static final FunctionPane thresholdBinary = new FunctionPane("<html><h3>Threshold Binary()</h3></html>", new String[]{
+        "Threshold"},
+        new double[]{100}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            TGG_Master.thresholdBinary(Resources.dataArrayList.get(0), this.getOption(0));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
     
     /**
      * Log Function

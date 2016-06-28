@@ -58,6 +58,23 @@ public class TGG_Master {
         }
     }
     
+    /**
+     * Convert the array to a binary array where values are either 0 or 0xfe
+     * @param target array to modify
+     * @param threshold value used to differentiate 0s and 1s
+     */
+    public static void thresholdBinary(double[][] target, double threshold){
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                if(target[row][col] < threshold){
+                    target[row][col] = 0;
+                }else{
+                    target[row][col] = 0xfe;
+                }
+            }
+        }
+    }
+    
     public static void lnFunction(double[][] target){
         for(int row = 0; row < target.length; row++){
             for(int col = 0; col < target[row].length; col++){
