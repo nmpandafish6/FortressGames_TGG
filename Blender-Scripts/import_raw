@@ -1,18 +1,31 @@
 import random
 import math
+import os
+import struct
 
-
+rawFile = #raw file location
 f = open(rawFile, "rb")
+fSize = os.path.getsize(rawFile)  
+isByteArray = False
+if(math.sqrt(fSize/2) % 1 == 0):
+   isByteArray = False
+else:
+   isByteArray = True
+   
+bsize = 1 if isByteArray else 2
+   
 bytes = []
 try:
-   byte = f.read(1)
+   byte = f.read(bsize)
    while byte:
-      bytes.append(ord(byte))
+      bytes.append(int(struct.unpack('H', byte)[0])/256)
       # Do stuff with byte.
-      byte = f.read(1)
+      byte = f.read(bsize)
 finally:
    f.close()
    
+
+
 mlength = int(math.sqrt(len(bytes)))
 me = bpy.data.meshes.new("Mesh")
 ob = bpy.data.objects.new("OBJ", me)
@@ -29,18 +42,18 @@ for row in range(0,mlength*2-1):
    z = bytes[i]/1
    i = i + 1
   else:
-   z = (bytes[col+math.ceil(row/2)*(mlength)]+bytes[col+math.ceil(row/2)*(mlength)+1]+bytes[col]+bytes[col+1])/4
+   z = (bytes[col+math.ceil(row/2)*(mlength)]+bytes[col+math.ceil(row/2)*(mlength)+1]+bytes[col+math.floor(row/2)*(mlength)]+bytes[col+math.floor(row/2)*(mlength)+1])/4
   verts.append((col if row % 2 == 0 else 0.5 + col, row * 0.5, z))
     
 
 faces = []
 for row in range(0,mlength-1):
    for col in range(0,mlength-1):
-      upperLeft = (row * ((mlength-1) * 2 + 1) + col)
-      upperRight = (row * ((mlength-1) * 2 + 1) + col + 1)
-      bottomLeft = ((row + 1) * ((mlength-1) * 2 + 1) + col)
-      bottomRight = ((row + 1) * ((mlength-1) * 2 + 1) + col + 1) 
-      center = ((row+1) * ((mlength-1) + 1) + col)
+      upperLeft = (row*(mlength*2-1))+col
+      upperRight = (row*(mlength*2-1))+col+1
+      bottomLeft = ((row+1)*(mlength*2-1))+col
+      bottomRight = ((row+1)*(mlength*2-1))+col+1
+      center = (row*(mlength*2-1))+col+mlength
       faces.append((upperLeft,upperRight,center))
       faces.append((upperLeft,bottomLeft,center))
       faces.append((bottomLeft,bottomRight,center))
