@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.*;
 import programbuilder.resources.*;
 import util.ArrayUtil;
+import util.MathUtil;
 import util.RandomUtil;
+import util.StatsUtil;
 
 /**
  * Master Class for Generic Terrain Gen Algorithms
@@ -284,7 +286,7 @@ public class TGG_Master {
         for(int i = min; i <= max; i++){
             Resources.sourceLow = 0;
             Resources.sourceHigh = 255;
-            double[][] source = CircularDiamondSquareFractal.diamondSquareGenerate(new double[]{size, 1, 100, 100, 100, 100, 100});
+            double[][] source = DiamondSquareFractal.diamondSquareGenerate(new double[]{size, 1, 100, 100, 100, 100, 100});
             
 //            int[][] original = ArrayUtil.doubleToIntArray(ArrayUtil.twoDimensionalArray(ArrayUtil.scaledOneDimensionalArray_16t(source, Resources.sourceLow, Resources.sourceHigh)));
 //            //TGG_Master.flood(source, 100);
@@ -311,14 +313,23 @@ public class TGG_Master {
 //            int[][] result2 = TGG_BinaryOperations.binaryOr(result1, array2);
 //            
 //            double[][] result10 = ArrayUtil.intToDoubleArray(result2);
-            double[][] finalResult = new double[source.length][source[0].length];
             
             for(int repeat = 0; repeat < 20; repeat++){
-                TGG_Master.laplacianSmooth(source, finalResult);
+                TGG_Master.laplacianSmooth(source, source);
             }
-            TGG_FileOperations.write16BitBinary(finalResult, name + i);
-            if(i == max) result = finalResult;
+            TGG_FileOperations.write16BitBinary(source, name + i);
+            TGG_FileOperations.writeXRaw(source, name + i);
+            double minHeight = TGG_Util.findMinimumEdgeHeight(source);
+            System.out.println("i : " + i + " " + minHeight);
+            TGG_Master.thresholdBinary(source, minHeight-1);
+            Resources.sourceHigh = 65536;
+            
+            TGG_FileOperations.writeImage(source, name + i);
+            if(i == max) result = source;
+            Resources.sourceHigh = 255;
         }
         return result;
     }
+    
+    
 }
