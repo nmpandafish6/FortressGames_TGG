@@ -6,6 +6,9 @@
 
 package opencv_ext;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
@@ -23,7 +26,9 @@ import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 import org.opencv.utils.Converters;
+import util.DataUtil;
 
 /**
  *
@@ -108,5 +113,60 @@ public class TGG_OpenCV_Util {
         }
         // Return result
         return pointResults;
+    }
+    
+    public static Point[] getCentroidPoints(BufferedImage bufferedImage){
+        Point[][] contourPoints = getExternalConvexHullPoints(bufferedImage);
+        Point[] centroidPoints = new Point[contourPoints.length];
+        for(int c = 0; c < contourPoints.length; c++){
+            BufferedImage grayImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+            Graphics g = grayImage.getGraphics();
+            g.setColor(Color.GREEN);
+            Polygon convexHull = new Polygon();
+            for(int p = 0; p < contourPoints[c].length; p++){
+                Point p0 = contourPoints[c][p];
+                convexHull.addPoint((int)p0.x, (int)p0.y);
+            }
+            g.fillPolygon(convexHull);
+            Mat cHull = bufferedImage2Mat(grayImage);
+            Moments m = Imgproc.moments(cHull);
+            centroidPoints[c] = new Point(m.m10/m.m00, m.m01/m.m00);
+        }
+        return centroidPoints;
+    }
+    
+    public static byte[] getContourLineData(BufferedImage bufferedImage){
+        byte[] lineData = null;
+        Point[][] contourPoints = getExternalConvexHullPoints(bufferedImage);
+        boolean[][] greaterThan_lineData = new boolean[contourPoints.length][0];
+        for(int c = 0; c < contourPoints.length; c++){
+            greaterThan_lineData[c] = new boolean[contourPoints[c].length];
+            for(int p = 0; p < contourPoints[c].length; p++){
+                Point p0 = contourPoints[c][p];
+                Point p1 = contourPoints[c][(p + 1) % contourPoints[c].length];
+                Point mid = new Point((p1.x + p0.x) / 2, (p1.y + p0.y) / 2);
+                Point testPoint = new Point(mid.x,mid.y);
+                double slopeN = -(p0.y - p1.y);
+                double slopeD = (p0.x - p1.x);
+                boolean nonZeroSlope = false;
+                double slope = 0;
+                if(slopeN == 0){ // Horizontal Line
+                    testPoint.y -= 1;
+                }else if(slopeD == 0){ // Vertical Line
+                    testPoint.x += 1;
+                }else{ // Sloped Line
+                    slope = slopeN / slopeD;
+                    double perpendicularSlope = -1 / slope;
+                    nonZeroSlope = true;
+                    testPoint.x += 1;
+                    testPoint.y = -perpendicularSlope*(testPoint.x - mid.x) + mid.y;
+                }
+                greaterThan_lineData[c][p] = (bufferedImage.getRGB((int)Math.ceil(testPoint.x), (int)Math.ceil(testPoint.y)) & 0x00ffffff) != 0;
+                greaterThan_lineData[c][p] = greaterThan_lineData[c][p] ^ (nonZeroSlope && slope > 0);
+                System.out.println(p0 + "," + p1 + ", gt:" + greaterThan_lineData[c][p] + "," + testPoint + "slope" + slope);
+            }
+        }
+        lineData = DataUtil.boolArray2D_2byteArray(greaterThan_lineData);
+        return lineData;
     }
 }

@@ -60,6 +60,14 @@ public class MenuBar extends JMenuBar{
                     }
                 });
                 fileMenu.add(exportRaw_16t);
+            JMenuItem exportXRaw = new JMenuItem("Export XRaw");
+                exportXRaw.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        TGG_FileOperations.writeXRaw(Resources.dataArrayList.get(Resources.activeArrayElement));
+                    }
+                });
+                fileMenu.add(exportXRaw);
             JMenuItem exportImage = new JMenuItem("Export Image");
                 exportImage.addActionListener(new ActionListener() {
                     @Override

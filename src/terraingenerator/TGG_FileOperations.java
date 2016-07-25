@@ -125,19 +125,27 @@ public class TGG_FileOperations {
     
     public static void writeXRaw(double[][] target, String destination){
         try {
+            // Correct destination if extension is wrong
             File file = new File(destination);
             String fileName = file.getPath();
             String extension = getExtension(fileName);
             if(!extension.equals("xraw")) fileName += ".xraw";
+            // Open OutputStream
             DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
+            // Get array of heights to write to file
             int[] array = ArrayUtil.doubleToIntArray((ArrayUtil.scaledOneDimensionalArray_16t(target, Resources.sourceLow, Resources.sourceHigh)));
+            // Get minEdgeHeight Variable. This represents the minimum height that must be covered so that an island is submerged on all edges
             double minEdgeHeightTemp = (1 + TGG_Util.findMinimumEdgeHeight(target));
             int minEdgeHeight = (int) MathUtil.map(minEdgeHeightTemp, Resources.sourceLow, Resources.sourceHigh, 0, 0xffff);
+            // Write minEdge Height
             out.write(minEdgeHeight);
             out.write(minEdgeHeight >> 8);
+            // Grow terrain outwards to generate buffer
             double[][] largerTarget = TGG_Master.growOutward(target);
+            // Process image for convex hulls
             BufferedImage grayImage = TGG_ImageUtil.getUpdatedImage(largerTarget);
             Point[][] contourPoints = TGG_OpenCV_Util.getExternalConvexHullPoints(grayImage);
+            // Write convex hull point data to file
             int numberOfContours = contourPoints.length;
             out.writeByte(numberOfContours);
             for(int c = 0; c < numberOfContours; c++){
@@ -148,6 +156,10 @@ public class TGG_FileOperations {
                     out.writeShort(y);
                 }
             }
+            // Get and write line data to file
+            byte[] lineData = TGG_OpenCV_Util.getContourLineData(grayImage);
+            out.write(lineData);
+            // Write heightmap data to file
             for(int i = 0; i < array.length; i++){
                 out.write(array[i]);
                 out.write(array[i] >> 8);

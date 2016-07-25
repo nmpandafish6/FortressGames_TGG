@@ -30,6 +30,16 @@ public class ArrayUtil {
         return oneDArray;
     }
     
+    public static boolean[] oneDimensionalArray(boolean[][] arr){
+        boolean[] oneDArray = new boolean[arr.length * arr.length];
+        for(int i = 0; i < arr.length; i ++){
+          for(int s = 0; s < arr[0].length; s ++){
+            oneDArray[(i * arr.length) + s] = arr[i][s];
+          }
+        }
+        return oneDArray;
+    }
+    
     public static double[][] twoDimensionalArray(double[] arr){
         double[][] twoDArray = new double[(int) Math.sqrt(arr.length)][(int) Math.sqrt(arr.length)];
         for(int i = 0; i < twoDArray.length; i ++){
