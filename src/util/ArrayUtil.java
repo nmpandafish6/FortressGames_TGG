@@ -31,10 +31,17 @@ public class ArrayUtil {
     }
     
     public static boolean[] oneDimensionalArray(boolean[][] arr){
-        boolean[] oneDArray = new boolean[arr.length * arr.length];
+        int depth = 0;
         for(int i = 0; i < arr.length; i ++){
-          for(int s = 0; s < arr[0].length; s ++){
-            oneDArray[(i * arr.length) + s] = arr[i][s];
+          for(int s = 0; s < arr[i].length; s ++){
+            depth++;
+          }
+        }
+        boolean[] oneDArray = new boolean[depth];
+        int x = 0;
+        for(int i = 0; i < arr.length; i ++){
+          for(int s = 0; s < arr[i].length; s ++){
+            oneDArray[x++] = arr[i][s];
           }
         }
         return oneDArray;

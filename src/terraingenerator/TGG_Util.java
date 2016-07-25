@@ -17,7 +17,9 @@ public class TGG_Util {
         int N = source[0].length-1;
         double min = Short.MIN_VALUE;
         for(int row = 0, col = 0, i = 0; i < 4;) {
-            min = source[row][col] > min ? (short) source[row][col] : min;
+            //min = source[row][col] > min ? (short) source[row][col] : min;
+            min = Math.max(min, (short) source[row][col]);
+            System.out.println(min);
             switch(i) {
                 case 0: 
                     if(++row == N) ++i;
@@ -33,6 +35,7 @@ public class TGG_Util {
                 break;
             }
         }
+        System.out.println("MIN : " + min);
         return min;
     }
 }

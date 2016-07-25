@@ -368,17 +368,17 @@ public class TGG_Master {
             }
             TGG_FileOperations.write16BitBinary(source, name + i);
             TGG_FileOperations.writeXRaw(source, name + i);
-            double minHeight = TGG_Util.findMinimumEdgeHeight(source);
-            System.out.println("i : " + i + " " + minHeight);
-            TGG_Master.thresholdBinary(source, minHeight-1);
-            Resources.sourceHigh = 65536;
-            
-            TGG_FileOperations.writeImage(source, name + i);
-            source = TGG_Master.growOutward(source);
-            TGG_Master.flood(source, 0xfffe);
-            BufferedImage grayImage = TGG_ImageUtil.getUpdatedImage(source);
-            Point[][] contourPoints = TGG_OpenCV_Util.getExternalConvexHullPoints(grayImage);
-            System.out.println(Arrays.deepToString(contourPoints));
+//            double minHeight = TGG_Util.findMinimumEdgeHeight(source);
+//            System.out.println("i : " + i + " " + minHeight);
+//            //TGG_Master.thresholdBinary(source, minHeight-1);
+//            Resources.sourceHigh = 65536;
+//            
+//            TGG_FileOperations.writeImage(source, name + i);
+//            source = TGG_Master.growOutward(source);
+//            //TGG_Master.flood(source, 0xfffe);
+//            BufferedImage grayImage = TGG_ImageUtil.getUpdatedImage(source);
+//            Point[][] contourPoints = TGG_OpenCV_Util.getExternalConvexHullPoints(grayImage);
+//            System.out.println(Arrays.deepToString(contourPoints));
             if(i == max) result = source;
             Resources.sourceHigh = 255;
         }

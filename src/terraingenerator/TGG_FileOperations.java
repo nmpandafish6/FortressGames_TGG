@@ -137,13 +137,16 @@ public class TGG_FileOperations {
             // Get minEdgeHeight Variable. This represents the minimum height that must be covered so that an island is submerged on all edges
             double minEdgeHeightTemp = (1 + TGG_Util.findMinimumEdgeHeight(target));
             int minEdgeHeight = (int) MathUtil.map(minEdgeHeightTemp, Resources.sourceLow, Resources.sourceHigh, 0, 0xffff);
+            TGG_Master.thresholdBinary(target, minEdgeHeightTemp);
             // Write minEdge Height
             out.write(minEdgeHeight);
             out.write(minEdgeHeight >> 8);
             // Grow terrain outwards to generate buffer
             double[][] largerTarget = TGG_Master.growOutward(target);
             // Process image for convex hulls
+            Resources.sourceHigh = 65536;
             BufferedImage grayImage = TGG_ImageUtil.getUpdatedImage(largerTarget);
+            Resources.sourceHigh = 255;
             Point[][] contourPoints = TGG_OpenCV_Util.getExternalConvexHullPoints(grayImage);
             // Write convex hull point data to file
             int numberOfContours = contourPoints.length;
@@ -159,13 +162,16 @@ public class TGG_FileOperations {
             // Get and write line data to file
             byte[] lineData = TGG_OpenCV_Util.getContourLineData(grayImage);
             out.write(lineData);
+            System.out.println(lineData.length);
             // Write heightmap data to file
             for(int i = 0; i < array.length; i++){
                 out.write(array[i]);
                 out.write(array[i] >> 8);
             }
             out.close();
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     /***************************************
