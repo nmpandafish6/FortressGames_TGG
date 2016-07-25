@@ -1,7 +1,10 @@
 package terraingenerator;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
+import opencv_ext.TGG_OpenCV_Util;
+import org.opencv.core.Point;
 import programbuilder.resources.*;
 import util.ArrayUtil;
 import util.MathUtil;
@@ -275,6 +278,52 @@ public class TGG_Master {
         return target;
     }
     
+    
+    
+    public static double[][] growOutward(double[][] source){
+        double[][] target = new double[source.length][source[0].length];
+        for(int row = 0; row < source.length; row++){
+            for(int col = 0; col < source[row].length; col++){
+                if(source[row][col] == 0){
+                    ArrayList<Double> neighbors = new ArrayList<>();
+                    int[] offset = new int[]{-1,0,1};
+                    for(int y = 0; y < offset.length; y++){
+                        for(int x = 0; x < offset.length; x++){
+                            int y0 = offset[y] + row;
+                            int x0 = offset[x] + col;
+                            if(y0 > 0 && y0 < source.length){
+                                if(x0 > 0 && x0 < source[y0].length){
+                                neighbors.add(source[y0][x0]);
+                                }
+                            }
+                        }
+                    }
+                    for(int i = 0; i < neighbors.size(); i++){
+                        if(neighbors.get(i) > 0){
+                            target[row][col] = -1;
+                            break;
+                        }
+                    }
+                }else if(source[row][col] > 0){
+                    continue;
+                }else{
+                    // Something went wrong....?
+                    continue;
+                }
+            }
+        }
+        for(int row = 0; row < target.length; row++){
+            for(int col = 0; col < target[row].length; col++){
+                if(target[row][col] == -1){
+                    target[row][col] = 0xffff;
+                }else{
+                    target[row][col] = source[row][col];
+                }
+            }
+        }
+        return target;
+    }
+    
     public static double[][] automate(double[] options){
         int size = (int) options[0];
         int min   = (int) options[1];
@@ -325,6 +374,11 @@ public class TGG_Master {
             Resources.sourceHigh = 65536;
             
             TGG_FileOperations.writeImage(source, name + i);
+            source = TGG_Master.growOutward(source);
+            TGG_Master.flood(source, 0xfffe);
+            BufferedImage grayImage = TGG_ImageUtil.getUpdatedImage(source);
+            Point[][] contourPoints = TGG_OpenCV_Util.getExternalConvexHullPoints(grayImage);
+            System.out.println(Arrays.deepToString(contourPoints));
             if(i == max) result = source;
             Resources.sourceHigh = 255;
         }

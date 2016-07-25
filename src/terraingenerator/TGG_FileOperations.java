@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import opencv_ext.TGG_OpenCV_Util;
+import org.opencv.core.Point;
 import programbuilder.resources.Resources;
 import util.ArrayUtil;
 import util.MathUtil;
@@ -133,6 +135,19 @@ public class TGG_FileOperations {
             int minEdgeHeight = (int) MathUtil.map(minEdgeHeightTemp, Resources.sourceLow, Resources.sourceHigh, 0, 0xffff);
             out.write(minEdgeHeight);
             out.write(minEdgeHeight >> 8);
+            double[][] largerTarget = TGG_Master.growOutward(target);
+            BufferedImage grayImage = TGG_ImageUtil.getUpdatedImage(largerTarget);
+            Point[][] contourPoints = TGG_OpenCV_Util.getExternalConvexHullPoints(grayImage);
+            int numberOfContours = contourPoints.length;
+            out.writeByte(numberOfContours);
+            for(int c = 0; c < numberOfContours; c++){
+                for(int p = 0; p < contourPoints[c].length; p++){
+                    short x = (short) contourPoints[c][p].x;
+                    short y = (short) contourPoints[c][p].y;
+                    out.writeShort(x);
+                    out.writeShort(y);
+                }
+            }
             for(int i = 0; i < array.length; i++){
                 out.write(array[i]);
                 out.write(array[i] >> 8);

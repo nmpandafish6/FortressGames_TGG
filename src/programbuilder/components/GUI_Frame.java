@@ -99,6 +99,7 @@ public class GUI_Frame extends JFrame{
         component.add(FunctionPanes.addGaussianRandommness);
         component.add(FunctionPanes.addRandommness); 
         component.add(FunctionPanes.magicSquare);
+        component.add(FunctionPanes.growOutward);
         
         stats = new DataPane("<html><h3>Stats</h3></html>", new String[]{
             "Mean", "Max ", "Min "});

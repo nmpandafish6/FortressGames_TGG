@@ -56,6 +56,23 @@ public class FunctionPanes {
             GUI_Frame.updateStats(Resources.dataArrayList.get(Resources.activeArrayElement));
         }
     };
+    
+    /**
+     * Grow Outward Function
+     */
+    public static final FunctionPane growOutward = new FunctionPane("<html><h3>Grow Outward()</h3></html>", new String[]{
+        "Repeat"},
+        new double[]{1}) {
+        @Override
+        public void function() {
+            Resources.undoArrayList.set(Resources.activeArrayElement, ArrayUtil.copyArray(Resources.dataArrayList.get(0)));
+            int repeatTimes = (int) this.getOption(0);
+            for(int i = 0; i < repeatTimes; i++)
+                Resources.dataArrayList.set(Resources.activeArrayElement, TGG_Master.growOutward(Resources.dataArrayList.get(0)));
+            GUI_Frame.updateImage(Resources.dataArrayList.get(0));
+            GUI_Frame.updateStats(Resources.dataArrayList.get(0));
+        }
+    };
             
     /**
      * Translate Function
